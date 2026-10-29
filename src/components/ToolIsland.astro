@@ -2,6 +2,12 @@
 // Renders the interactive Preact island for a tool. Astro ships only the
 // JavaScript for the island actually rendered on each page.
 import type { IslandSpec } from '../data/tools';
+import CompressImage from '../islands/image/CompressImage';
+import TargetSize from '../islands/image/TargetSize';
+import ResizeImage from '../islands/image/ResizeImage';
+import ConvertImage from '../islands/image/ConvertImage';
+import HeicConvert from '../islands/image/HeicConvert';
+import PassportPhoto from '../islands/image/PassportPhoto';
 
 interface Props {
   island: IslandSpec;
@@ -9,4 +15,10 @@ interface Props {
 const { island } = Astro.props;
 ---
 <div data-island={island.kind}>
+  {island.kind === 'image-compress' && <CompressImage client:load bulk={island.bulk} />}
+  {island.kind === 'image-target' && <TargetSize client:load targetKb={island.targetKb} />}
+  {island.kind === 'image-resize' && <ResizeImage client:load />}
+  {island.kind === 'image-convert' && <ConvertImage client:load from={island.from} to={island.to} />}
+  {island.kind === 'heic' && <HeicConvert client:load />}
+  {island.kind === 'passport' && <PassportPhoto client:load />}
 </div>

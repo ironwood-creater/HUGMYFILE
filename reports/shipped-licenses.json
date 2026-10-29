@@ -28,6 +28,122 @@
       "components": []
     },
     {
+      "name": "@jsquash/avif",
+      "version": "2.1.1",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2020 Google Inc.; jSquash by Jamie Sinclair",
+      "url": "jamsinclair/jSquash",
+      "note": "",
+      "components": [
+        {
+          "name": "libavif",
+          "license": "BSD-2-Clause",
+          "copyright": "Copyright 2019 Joe Drago. All rights reserved.",
+          "url": "https://github.com/AOMediaCodec/libavif"
+        },
+        {
+          "name": "libaom (AV1 codec)",
+          "license": "BSD-2-Clause",
+          "copyright": "Copyright (c) 2016, Alliance for Open Media. All rights reserved.",
+          "url": "https://aomedia.googlesource.com/aom/"
+        },
+        {
+          "name": "dav1d (AV1 decoder)",
+          "license": "BSD-2-Clause",
+          "copyright": "Copyright © 2018-2019, VideoLAN and dav1d authors",
+          "url": "https://code.videolan.org/videolan/dav1d"
+        }
+      ]
+    },
+    {
+      "name": "@jsquash/jpeg",
+      "version": "1.6.0",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2020 Google Inc.; jSquash by Jamie Sinclair",
+      "url": "jamsinclair/jSquash",
+      "note": "",
+      "components": [
+        {
+          "name": "MozJPEG / libjpeg-turbo",
+          "license": "IJG AND BSD-3-Clause AND Zlib",
+          "copyright": "Copyright (C) 1991-2023 The libjpeg-turbo Project and many others; Mozilla Corporation",
+          "url": "https://github.com/mozilla/mozjpeg"
+        }
+      ]
+    },
+    {
+      "name": "@jsquash/png",
+      "version": "3.1.1",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2020 Google Inc.; jSquash by Jamie Sinclair",
+      "url": "https://github.com/jamsinclair/jSquash",
+      "note": "",
+      "components": [
+        {
+          "name": "png and oxipng Rust crates (Squoosh PNG codec)",
+          "license": "(MIT OR Apache-2.0)",
+          "copyright": "Copyright (c) The image-rs Developers; Copyright Google LLC",
+          "url": "https://github.com/GoogleChromeLabs/squoosh"
+        }
+      ]
+    },
+    {
+      "name": "@jsquash/resize",
+      "version": "2.1.1",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2020 Google Inc.; jSquash by Jamie Sinclair",
+      "url": "jamsinclair/jSquash/packages/resize",
+      "note": "",
+      "components": [
+        {
+          "name": "resize Rust crate",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2015 PistonDevelopers",
+          "url": "https://github.com/PistonDevelopers/resize"
+        },
+        {
+          "name": "Squoosh resize",
+          "license": "Apache-2.0",
+          "copyright": "Copyright Google LLC",
+          "url": "https://github.com/GoogleChromeLabs/squoosh"
+        }
+      ]
+    },
+    {
+      "name": "@jsquash/webp",
+      "version": "1.5.0",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2020 Google Inc.; jSquash by Jamie Sinclair",
+      "url": "jamsinclair/jSquash",
+      "note": "",
+      "components": [
+        {
+          "name": "libwebp",
+          "license": "BSD-3-Clause",
+          "copyright": "Copyright (c) 2010, Google Inc.",
+          "url": "https://chromium.googlesource.com/webm/libwebp"
+        }
+      ]
+    },
+    {
+      "name": "@pdf-lib/standard-fonts",
+      "version": "1.0.0",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2018 Andrew Dillon",
+      "url": "https://github.com/Hopding/standard-fonts",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@pdf-lib/upng",
+      "version": "1.0.1",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2017 Photopea",
+      "url": "https://github.com/Hopding/upng",
+      "note": "",
+      "components": []
+    },
+    {
       "name": "@preact/signals",
       "version": "2.11.4",
       "license": "MIT",
@@ -55,12 +171,39 @@
       "components": []
     },
     {
+      "name": "fflate",
+      "version": "0.8.3",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 Arjun Barrett",
+      "url": "https://101arrowz.github.io/fflate",
+      "note": "",
+      "components": []
+    },
+    {
       "name": "lucide",
       "version": "1.64.0",
       "license": "ISC",
       "copyright": "Copyright (c) 2026 Lucide Icons and Contributors",
       "url": "https://lucide.dev",
       "note": "Interface icons (SVG paths drawn into pages and tools)",
+      "components": []
+    },
+    {
+      "name": "pako",
+      "version": "1.0.11",
+      "license": "(MIT AND Zlib)",
+      "copyright": "Copyright (C) 2014-2017 by Vitaly Puzrin and Andrei Tuputcyn",
+      "url": "https://github.com/nodeca/pako",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "pdf-lib",
+      "version": "1.17.1",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2019 Andrew Dillon",
+      "url": "https://pdf-lib.js.org",
+      "note": "",
       "components": []
     },
     {
@@ -115,6 +258,15 @@
       "license": "MIT",
       "copyright": "Copyright (c) 2015-present Jason Miller",
       "url": "https://preactjs.com",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "rolldown",
+      "version": "1.2.16",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2024-present VoidZero Inc. & Contributors",
+      "url": "https://rolldown.rs/",
       "note": "",
       "components": []
     },
@@ -202,11 +354,29 @@
       ]
     },
     {
+      "name": "tslib",
+      "version": "1.14.1",
+      "license": "0BSD",
+      "copyright": "Copyright (c) Microsoft Corporation.",
+      "url": "https://www.typescriptlang.org/",
+      "note": "",
+      "components": []
+    },
+    {
       "name": "vite",
       "version": "8.3.5",
       "license": "MIT",
       "copyright": "Copyright (c) 2019-present, VoidZero Inc. and Vite contributors",
       "url": "https://vite.dev",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "wasm-feature-detect",
+      "version": "1.9.0",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2017 Google Inc.",
+      "url": "GoogleChromeLabs/wasm-feature-detect",
       "note": "",
       "components": []
     }
