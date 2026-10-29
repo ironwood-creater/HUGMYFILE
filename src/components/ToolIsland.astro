@@ -19,6 +19,7 @@ import PdfToImages from '../islands/pdf/PdfToImages';
 import PdfEditor from '../islands/pdf/PdfEditor';
 import PdfFillForm from '../islands/pdf/PdfFillForm';
 import SignatureMaker from '../islands/signature/SignatureMaker';
+import OcrTool from '../islands/ocr/OcrTool';
 
 interface Props {
   island: IslandSpec;
@@ -44,4 +45,5 @@ const { island } = Astro.props;
   {island.kind === 'pdf-edit' && <PdfEditor client:load mode="edit" />}
   {island.kind === 'pdf-form' && <PdfFillForm client:load />}
   {island.kind === 'signature' && <SignatureMaker client:load />}
+  {island.kind === 'ocr' && <OcrTool client:load mode={island.mode} />}
 </div>

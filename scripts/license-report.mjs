@@ -68,6 +68,10 @@ const BUNDLED_COMPONENTS = {
     { name: 'Leptonica', license: 'BSD-2-Clause', copyright: 'Copyright (C) 2001-2024 Leptonica', url: 'http://www.leptonica.org' },
   ],
 };
+BUNDLED_COMPONENTS['qr-code-styling'] = [
+  { name: 'qrcode-generator', license: 'MIT', copyright: 'Copyright (c) 2009 Kazuhiko Arase', url: 'https://github.com/kazuhikoarase/qrcode-generator' },
+];
+
 const DATA_FILES = [
   {
     name: 'tessdata_fast language models (eng, spa, fra, deu, por, ara, hin, urd, ind)',

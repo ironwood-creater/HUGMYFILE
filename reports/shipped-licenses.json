@@ -313,6 +313,22 @@
       "copyright": "Copyright (c) 2019 Denys Kozak",
       "url": "https://qr-code-styling.com",
       "note": "",
+      "components": [
+        {
+          "name": "qrcode-generator",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2009 Kazuhiko Arase",
+          "url": "https://github.com/kazuhikoarase/qrcode-generator"
+        }
+      ]
+    },
+    {
+      "name": "regenerator-runtime",
+      "version": "0.13.11",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2014-present, Facebook, Inc.",
+      "url": "https://github.com/facebook/regenerator/tree/main/packages/runtime",
+      "note": "",
       "components": []
     },
     {
