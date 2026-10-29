@@ -19,7 +19,8 @@
     "test:e2e": "playwright test",
     "test:chromium": "playwright test --project=chromium-desktop --project=chromium-mobile",
     "test": "npm run test:unit && npm run test:e2e",
-    "licenses:update": "node scripts/license-report.mjs --update"
+    "licenses:update": "node scripts/license-report.mjs --update",
+    "test:report": "node scripts/test-report.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "6.1.1",

@@ -12,3 +12,4 @@ public/vendor/tesseract/
 public/fonts/pdf/
 *.log
 .DS_Store
+reports/lighthouse/*.json

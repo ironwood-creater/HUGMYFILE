@@ -52,6 +52,7 @@ const BUNDLED_COMPONENTS = {
     { name: 'qcms', license: 'MIT', copyright: 'Copyright (C) 2009-2024 Mozilla Corporation; Copyright (C) 1998-2007 Marti Maria', url: 'https://github.com/FirefoxGraphics/qcms' },
     { name: 'ICC profile (CGATS001Compat)', license: 'CC0-1.0', copyright: 'Public domain dedication', url: 'https://github.com/mozilla/pdf.js' },
     { name: 'Foxit and Liberation standard font data', license: 'BSD-3-Clause', copyright: 'Copyright 2014 PDFium Authors; Liberation fonts under SIL OFL 1.1', url: 'https://github.com/mozilla/pdf.js/tree/master/external/standard_fonts' },
+    { name: 'core-js (polyfills in the legacy build)', license: 'MIT', copyright: 'Copyright (c) 2013–2025 Denis Pushkarev, core-js contributors', url: 'https://github.com/zloirock/core-js' },
     { name: 'Adobe CMaps', license: 'BSD-3-Clause', copyright: 'Copyright 1990-2019 Adobe. All rights reserved.', url: 'https://github.com/adobe-type-tools/cmap-resources' },
   ],
   'tesseract.js': [

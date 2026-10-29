@@ -101,7 +101,7 @@ describe('page operations', () => {
     expect(t[2]).toContain('Page 3 of 3');
   });
   it('builds a PDF from images', async () => {
-    const png = readFileSync('src/assets/brand/../../../public/icons/icon-192.png');
+    const png = readFileSync('public/icons/icon-192.png');
     const out = await imagesToPdf([{ bytes: new Uint8Array(png), kind: 'png' }, { bytes: new Uint8Array(png), kind: 'png' }], { size: 'a4', orientation: 'auto', margin: 20 });
     const doc = await PDFDocument.load(out);
     expect(doc.getPageCount()).toBe(2);

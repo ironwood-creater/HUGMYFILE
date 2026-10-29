@@ -4,13 +4,13 @@
 // upload or download buttons, and never on top of a tool.
 import { ADS_ENABLED, ADSENSE_CLIENT_ID } from '../config';
 interface Props {
-  slot: 'after-tool' | 'in-content' | 'bottom';
+  position: 'in-content' | 'bottom';
 }
-const { slot } = Astro.props;
+const { position } = Astro.props;
 const on = ADS_ENABLED && ADSENSE_CLIENT_ID.length > 0;
 ---
 {on && (
-  <aside class="ad-slot mx-auto my-10 max-w-3xl px-4" aria-label="Advertisement" data-slot={slot}>
+  <aside class="ad-slot mx-auto my-10 max-w-3xl px-4" aria-label="Advertisement" data-slot={position}>
     <p class="mb-1 text-center text-xs uppercase tracking-wide text-muted">Advertisement</p>
     <ins class="adsbygoogle block min-h-[100px]" data-ad-client={ADSENSE_CLIENT_ID} data-ad-format="auto" data-full-width-responsive="true"></ins>
     <script is:inline>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>

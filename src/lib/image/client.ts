@@ -5,6 +5,7 @@ import { ToolError } from '../errors';
 import { WorkerClient, type ProgressFn } from '../workerClient';
 import type { ImageJob, ImageResult, PixelSource } from './engine';
 import { MIME, sniffFile, type ImageFormat, type OutputFormat } from './formats';
+import { loadUprightCanvas } from './orient';
 
 export type { ImageJob, ImageResult } from './engine';
 
@@ -55,54 +56,16 @@ export class ImageEngine {
   }
 }
 
-function loadImageElement(file: Blob): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.decoding = 'async';
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve(img);
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new ToolError('decode-failed'));
-    };
-    img.src = url;
-  });
-}
-
-/** Opens an image with the browser's own decoder on the page and returns RGBA pixels. */
+/** Opens an image with the browser's own decoder on the page (upright) and returns RGBA pixels. */
 export async function decodeOnPage(file: Blob, maxPixels = SAFE_CANVAS_PIXELS): Promise<PixelSource> {
-  let source: ImageBitmap | HTMLImageElement;
-  let width: number;
-  let height: number;
-  try {
-    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
-    source = bmp;
-    width = bmp.width;
-    height = bmp.height;
-  } catch {
-    const img = await loadImageElement(file);
-    source = img;
-    width = img.naturalWidth;
-    height = img.naturalHeight;
-  }
-  if (!width || !height) throw new ToolError('decode-failed');
-  const scale = width * height > maxPixels ? Math.sqrt(maxPixels / (width * height)) : 1;
-  const w = Math.max(1, Math.floor(width * scale));
-  const h = Math.max(1, Math.floor(height * scale));
-  const canvas = document.createElement('canvas');
-  canvas.width = w;
-  canvas.height = h;
+  const canvas = await loadUprightCanvas(file, Number.MAX_SAFE_INTEGER, maxPixels);
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) throw new ToolError('out-of-memory');
-  ctx.drawImage(source, 0, 0, w, h);
-  if ('close' in source) source.close();
-  const data = ctx.getImageData(0, 0, w, h).data;
+  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+  const result = { data: data.buffer as ArrayBuffer, width: canvas.width, height: canvas.height };
   canvas.width = 1;
   canvas.height = 1;
-  return { data: data.buffer as ArrayBuffer, width: w, height: h };
+  return result;
 }
 
 export function formatOf(file: File): Promise<ImageFormat> {

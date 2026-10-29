@@ -54,3 +54,28 @@ jobs:
             reports/tmp/results-${{ matrix.browser }}.json
             playwright-report/
           retention-days: 14
+
+  report:
+    name: Combined results table
+    needs: e2e
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: results-*
+          path: artifacts
+      - name: Collect JSON results
+        run: |
+          mkdir -p reports/tmp
+          find artifacts -name 'results-*.json' -exec cp {} reports/tmp/ \;
+      - run: node scripts/test-report.mjs
+      - run: cat reports/test-results.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: test-results-table
+          path: reports/test-results.md

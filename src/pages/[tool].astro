@@ -82,8 +82,6 @@ const jsonLd = [
     </section>
   </div>
 
-  <AdSlot slot="after-tool" />
-
   <div class="mx-auto max-w-3xl px-4">
     <article class="prose-hug mt-12" data-testid="tool-content">
       {content.intro.map((p) => <p set:html={p} />)}
@@ -97,6 +95,8 @@ const jsonLd = [
       <ul>
         {content.features.map((f) => <li set:html={f} />)}
       </ul>
+
+      <AdSlot position="in-content" />
 
       {content.extra && (
         <>
@@ -121,5 +121,5 @@ const jsonLd = [
     <RelatedTools slugs={tool.related} />
   </div>
 
-  <AdSlot slot="bottom" />
+  <AdSlot position="bottom" />
 </BaseLayout>

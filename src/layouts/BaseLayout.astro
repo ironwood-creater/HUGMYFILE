@@ -2,7 +2,8 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE_NAME, ANALYTICS_TOKEN, ADS_ENABLED, ADSENSE_CLIENT_ID } from '../config';
+import AdsHead from '../components/AdsHead.astro';
+import { SITE_NAME, ANALYTICS_TOKEN } from '../config';
 import { absoluteUrl, organizationJsonLd } from '../lib/site';
 import nunito800 from '@fontsource/nunito/files/nunito-latin-800-normal.woff2?url';
 import nunito400 from '@fontsource/nunito/files/nunito-latin-400-normal.woff2?url';
@@ -20,7 +21,6 @@ const { title, description, path, jsonLd = [], noindex = false, ogType = 'websit
 const canonical = absoluteUrl(path);
 const ogImage = absoluteUrl('/og-image.png');
 const structured = [organizationJsonLd(), ...jsonLd];
-const adsOn = ADS_ENABLED && ADSENSE_CLIENT_ID.length > 0;
 ---
 <!doctype html>
 <html lang="en">
@@ -72,9 +72,7 @@ const adsOn = ADS_ENABLED && ADSENSE_CLIENT_ID.length > 0;
     {ANALYTICS_TOKEN && (
       <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: ANALYTICS_TOKEN })} />
     )}
-    {adsOn && (
-      <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`} crossorigin="anonymous" />
-    )}
+    <AdsHead />
   </head>
   <body class="min-h-dvh">
     <Header />

@@ -290,6 +290,12 @@
           "url": "https://github.com/mozilla/pdf.js/tree/master/external/standard_fonts"
         },
         {
+          "name": "core-js (polyfills in the legacy build)",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2013–2025 Denis Pushkarev, core-js contributors",
+          "url": "https://github.com/zloirock/core-js"
+        },
+        {
           "name": "Adobe CMaps",
           "license": "BSD-3-Clause",
           "copyright": "Copyright 1990-2019 Adobe. All rights reserved.",

@@ -1,0 +1,28 @@
+---
+// Google AdSense, loaded only when ADS_ENABLED is true and ADSENSE_CLIENT_ID is set
+// in src/config.ts. Before any ad code runs, Google Consent Mode defaults to
+// "denied" for visitors in the EEA, the UK and Switzerland. Google's certified
+// consent message (set up in AdSense → Privacy & messaging) then asks those
+// visitors and updates their choice. Ads never get access to anyone's files.
+import { ADS_ENABLED, ADSENSE_CLIENT_ID } from '../config';
+
+const on = ADS_ENABLED && ADSENSE_CLIENT_ID.length > 0;
+const consentRegions = [
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT',
+  'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'GB', 'CH',
+];
+const consentDefaults = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',${JSON.stringify({
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  wait_for_update: 500,
+  region: consentRegions,
+})});`;
+---
+{on && (
+  <>
+    <script is:inline set:html={consentDefaults} />
+    <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`} crossorigin="anonymous" />
+  </>
+)}

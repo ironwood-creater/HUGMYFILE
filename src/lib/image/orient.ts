@@ -35,7 +35,7 @@ export function browserAppliesOrientation(): Promise<boolean> {
  * Page-side: opens a photo upright (EXIF orientation applied) and scaled so its
  * longest side is at most maxSide. Returns a canvas ready to draw from.
  */
-export async function loadUprightCanvas(file: Blob, maxSide: number): Promise<HTMLCanvasElement> {
+export async function loadUprightCanvas(file: Blob, maxSide: number, maxPixels = Infinity): Promise<HTMLCanvasElement> {
   const head = new Uint8Array(await file.slice(0, 256 * 1024).arrayBuffer());
   const format = sniffImage(head);
   let source: ImageBitmap | HTMLImageElement;
@@ -60,7 +60,7 @@ export async function loadUprightCanvas(file: Blob, maxSide: number): Promise<HT
   const manual = orientation !== 1 && !(await browserAppliesOrientation());
   const uw = manual && orientationSwapsAxes(orientation) ? sh : sw;
   const uh = manual && orientationSwapsAxes(orientation) ? sw : sh;
-  const scale = Math.min(1, maxSide / Math.max(uw, uh));
+  const scale = Math.min(1, maxSide / Math.max(uw, uh), Math.sqrt(maxPixels / (uw * uh)));
   const canvas = document.createElement('canvas');
   canvas.width = Math.max(1, Math.round(uw * scale));
   canvas.height = Math.max(1, Math.round(uh * scale));
@@ -88,4 +88,19 @@ function loadImg(file: Blob): Promise<HTMLImageElement> {
     };
     img.src = url;
   });
+}
+
+/** Upright pixel size of a photo (EXIF orientation applied), or null if it can't be opened. */
+export async function readUprightSize(file: Blob): Promise<{ w: number; h: number } | null> {
+  try {
+    const head = new Uint8Array(await file.slice(0, 256 * 1024).arrayBuffer());
+    const bmp = await decodeBitmap(file);
+    const size = { w: bmp.width, h: bmp.height };
+    bmp.close();
+    const orientation = sniffImage(head) === 'jpeg' ? readJpegOrientation(head) : 1;
+    if (orientation !== 1 && orientationSwapsAxes(orientation) && !(await browserAppliesOrientation())) return { w: size.h, h: size.w };
+    return size;
+  } catch {
+    return null;
+  }
 }

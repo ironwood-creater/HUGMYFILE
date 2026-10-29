@@ -225,7 +225,7 @@ export default function SignatureCreator({ submitLabel, onSubmit, withSvg = fals
           <div class="relative overflow-hidden rounded-2xl border-2 border-dashed border-coral-300 bg-white">
             <canvas ref={canvasRef} class="block h-[220px] w-full touch-none" aria-label="Signature drawing area. Draw with your mouse, finger or pen." data-testid="sig-canvas" />
             <span class="pointer-events-none absolute inset-x-8 bottom-12 border-b border-ink-300" aria-hidden="true" />
-            {strokes === 0 && <span class="pointer-events-none absolute inset-0 grid place-items-center text-ink-400">Sign here</span>}
+            {strokes === 0 && <span class="pointer-events-none absolute inset-0 grid place-items-center text-ink-500">Sign here</span>}
           </div>
           <div class="mt-2 flex flex-wrap gap-2">
             <button type="button" class="btn btn-secondary btn-sm" onClick={undo} disabled={!strokes} data-testid="sig-undo">

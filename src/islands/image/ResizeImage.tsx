@@ -4,6 +4,7 @@ import { Segmented, Slider } from '../shared/Controls';
 import { ACCEPT_IMAGES, EXT } from '../../lib/image/formats';
 import { baseName } from '../../lib/format';
 import type { ImageJob } from '../../lib/image/client';
+import { readUprightSize } from '../../lib/image/orient';
 
 type Mode = 'pixels' | 'percent' | 'preset';
 
@@ -19,17 +20,6 @@ const PRESETS = [
   { id: 'web', label: 'Website image (1200 wide)', w: 1200, h: 0 },
 ];
 
-async function readSize(file: File): Promise<{ w: number; h: number } | null> {
-  try {
-    const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
-    const size = { w: bmp.width, h: bmp.height };
-    bmp.close();
-    return size;
-  } catch {
-    return null;
-  }
-}
-
 export default function ResizeImage() {
   const [mode, setMode] = useState<Mode>('pixels');
   const [width, setWidth] = useState('');
@@ -43,7 +33,7 @@ export default function ResizeImage() {
 
   const onFiles = async (files: File[]) => {
     const first = files[0];
-    const size = first ? await readSize(first) : null;
+    const size = first ? await readUprightSize(first) : null;
     setSource(size);
     if (size && !width && !height) {
       setWidth(String(size.w));

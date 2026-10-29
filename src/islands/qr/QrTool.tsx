@@ -163,7 +163,8 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
     data: toUtf8ByteString(data),
     image: logo ?? undefined,
     qrOptions: { errorCorrectionLevel: level, mode: 'Byte' },
-    imageOptions: { hideBackgroundDots: true, imageSize: logoSize / 100, margin: Math.round(px / 120), saveAsBlob: true },
+    // The logo is already a data URL, so it is embedded as-is (no extra request).
+    imageOptions: { hideBackgroundDots: true, imageSize: logoSize / 100, margin: Math.round(px / 120), saveAsBlob: false },
     dotsOptions: {
       type: dotType,
       color: dotColor,
