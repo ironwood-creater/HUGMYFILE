@@ -8,6 +8,7 @@ import ResizeImage from '../islands/image/ResizeImage';
 import ConvertImage from '../islands/image/ConvertImage';
 import HeicConvert from '../islands/image/HeicConvert';
 import PassportPhoto from '../islands/image/PassportPhoto';
+import QrTool from '../islands/qr/QrTool';
 
 interface Props {
   island: IslandSpec;
@@ -21,4 +22,5 @@ const { island } = Astro.props;
   {island.kind === 'image-convert' && <ConvertImage client:load from={island.from} to={island.to} />}
   {island.kind === 'heic' && <HeicConvert client:load />}
   {island.kind === 'passport' && <PassportPhoto client:load />}
+  {island.kind === 'qr' && <QrTool client:load type={island.type} logo={island.logo ?? false} />}
 </div>

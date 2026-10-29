@@ -14,9 +14,10 @@ interface ButtonProps {
   size?: 'sm' | 'md';
   testId?: string;
   class?: string;
+  disabled?: boolean;
 }
 
-export function DownloadButton({ blob, filename, label = 'Download', onSaved, variant = 'primary', size = 'md', testId = 'download', class: className = '' }: ButtonProps) {
+export function DownloadButton({ blob, filename, label = 'Download', onSaved, variant = 'primary', size = 'md', testId = 'download', class: className = '', disabled = false }: ButtonProps) {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   return (
@@ -24,7 +25,7 @@ export function DownloadButton({ blob, filename, label = 'Download', onSaved, va
       type="button"
       class={`btn ${variant === 'primary' ? 'btn-primary' : 'btn-secondary'} ${size === 'sm' ? 'btn-sm' : ''} ${className}`}
       data-testid={testId}
-      disabled={busy}
+      disabled={busy || disabled}
       onClick={async () => {
         setBusy(true);
         try {
