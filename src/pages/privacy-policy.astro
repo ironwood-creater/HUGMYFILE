@@ -1,0 +1,86 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { ADS_ENABLED, ANALYTICS_TOKEN, CONTACT_EMAIL, SITE_NAME } from '../config';
+const analyticsOn = ANALYTICS_TOKEN.length > 0;
+---
+<PageLayout
+  title="Privacy Policy – Files Stay on Your Device | HugMyFile"
+  description="HugMyFile processes your files locally in your browser and never uploads them. Read what we collect, what we never collect, analytics and ads."
+  path="/privacy-policy"
+  h1="Privacy Policy"
+  lead="The short version: your files never leave your device, and we do not track you."
+  updated="October 29, 2026"
+>
+  <h2>1. Your files</h2>
+  <p>
+    Every tool on {SITE_NAME} runs inside your web browser. When you choose, drop or paste a file, it is read and processed by your
+    own device. <strong>Your files are never uploaded to us or to anyone else.</strong> We do not have a server that receives files,
+    we do not store them, and we cannot see them. When you close or reload the page, the files and results in that tab are gone.
+  </p>
+  <p>
+    Some tools need extra building blocks to work, such as PDF rendering code, image encoders, fonts or text-recognition language
+    data. Your browser downloads these from our own website when a tool needs them. They are the same for every visitor and
+    contain nothing about you or your files.
+  </p>
+
+  <h2>2. No accounts, no history</h2>
+  <p>
+    There are no user accounts, logins or sign-ups. We do not keep a history of what you did, which tools you used or which files
+    you processed. The only thing saved in your browser is your light or dark theme choice, and only if you use the theme switch.
+    It stays on your device and is never sent to us.
+  </p>
+
+  <h2>3. Analytics</h2>
+  <p>
+    To understand which pages are useful, we may use <strong>Cloudflare Web Analytics</strong>, a privacy-focused service that
+    does not use cookies, does not track you across websites and does not build a profile of you. It counts page views and
+    collects basic technical information such as the page address, the referring website, your browser type and country. It
+    never receives your files.
+    {analyticsOn ? ' Analytics is currently turned on.' : ' Analytics is currently turned off.'}
+  </p>
+
+  <h2>4. Advertising</h2>
+  <p>
+    To keep the tools free, we plan to show ads from <strong>Google AdSense</strong>.
+    {ADS_ENABLED ? ' Ads are currently turned on.' : ' Ads are not turned on yet.'}
+    Once ads are on, Google and its partners may use cookies or similar technologies to show ads and measure them, based on your
+    visits to this and other websites. You can learn more in
+    <a href="https://policies.google.com/technologies/ads" rel="noopener">how Google uses information from sites that use its services</a>
+    and manage personalized ads in <a href="https://adssettings.google.com" rel="noopener">Google’s Ad Settings</a>.
+  </p>
+  <p>
+    Visitors in the European Economic Area, the United Kingdom and Switzerland will be asked for their consent through a
+    Google-certified consent message before any cookies are used for personalized advertising, and can change their choice at
+    any time. Ad code never receives your files, because your files never leave your device.
+  </p>
+
+  <h2>5. Hosting and security logs</h2>
+  <p>
+    Our website is delivered by Cloudflare. Like any web host, Cloudflare processes technical data such as IP addresses to deliver
+    pages and protect the site from abuse. We do not use this data to identify you.
+  </p>
+
+  <h2>6. Children</h2>
+  <p>
+    {SITE_NAME} is made for a general audience and is not directed at children under 13. We do not knowingly collect personal
+    information from children.
+  </p>
+
+  <h2>7. Your rights</h2>
+  <p>
+    Because we do not collect personal data through the tools and do not run accounts, there is usually nothing about you for us
+    to access, correct or delete. If you have a question or a request about your privacy, please get in touch.
+  </p>
+
+  <h2>8. Changes</h2>
+  <p>If this policy changes, we will update this page and the “Last updated” date above.</p>
+
+  <h2>9. Contact</h2>
+  <p>
+    {CONTACT_EMAIL ? (
+      <>Email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>
+    ) : (
+      <>See our <a href="/contact">contact page</a>. Our contact email is coming soon.</>
+    )}
+  </p>
+</PageLayout>

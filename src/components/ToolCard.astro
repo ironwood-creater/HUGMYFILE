@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import type { ToolDef } from '../data/tools';
+interface Props {
+  tool: ToolDef;
+  headingLevel?: 'h3' | 'h2';
+}
+const { tool, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<a
+  href={`/${tool.slug}`}
+  class="tool-card group card flex h-full gap-4 p-4 text-fg no-underline transition hover:-translate-y-0.5 hover:border-coral-300 hover:shadow-[var(--shadow-lift)] dark:hover:border-coral-700"
+  data-search={`${tool.name} ${tool.summary} ${tool.keywords.join(' ')} ${tool.category}`.toLowerCase()}
+>
+  <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-surface-2 text-link transition group-hover:scale-105">
+    <Icon name={tool.icon} size={22} />
+  </span>
+  <span class="min-w-0">
+    <H class="font-extrabold leading-snug">{tool.name}</H>
+    <span class="mt-1 block text-sm leading-snug text-muted">{tool.summary}</span>
+  </span>
+</a>

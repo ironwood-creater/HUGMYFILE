@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ToolCard from '../components/ToolCard.astro';
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import Faq from '../components/Faq.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { CATEGORIES, TOOLS, toolsIn } from '../data/tools';
+import { t } from '../i18n/ui';
+import { absoluteUrl } from '../lib/site';
+
+const s = t();
+const title = 'HugMyFile – Free PDF, Image & QR Tools, No Signup';
+const description =
+  'Compress, convert, merge, sign and scan files for free. No signup, no watermark, no limits. Every tool runs in your browser, so your files never leave your device.';
+
+const promises = [
+  { icon: 'ShieldCheck', title: 'Your files never leave your device', text: 'Every tool runs inside your browser. There is no upload step, no server copy and nothing to delete afterwards.' },
+  { icon: 'Infinity', title: 'Free, with no limits', text: 'Bulk compression, PDF signing, logo QR codes, OCR: all free. No daily caps and no artificial file-size limits.' },
+  { icon: 'BadgeCheck', title: 'No watermark, ever', text: 'What you download is your file, clean. We never stamp our name on your work.' },
+  { icon: 'UserX', title: 'No signup, no account', text: 'Open a tool and use it. There is nothing to register for and nothing to remember.' },
+];
+
+const faqs = [
+  { q: 'Is HugMyFile really free?', a: 'Yes. Every tool on this site is free to use as often as you like. The site may show a few clearly marked ads in the future to cover its costs, but the tools themselves will stay free and unlimited.' },
+  { q: 'Do you upload or keep my files?', a: 'No. Your files are processed by your own browser on your own device. They are never sent to us or anyone else, and nothing is saved once you close the tab.' },
+  { q: 'Do I need to install anything?', a: 'No installs and no extensions. HugMyFile works in current versions of Chrome, Safari, Firefox and Edge on computers, tablets and phones.' },
+  { q: 'Why can a big file feel slow?', a: 'Because the work happens on your device, speed depends on your computer or phone. Large PDFs, huge photos and text recognition can take a little longer on older phones, but there are no size caps.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'HugMyFile',
+    url: absoluteUrl('/'),
+    description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<BaseLayout title={title} description={description} path="/" jsonLd={jsonLd}>
+  <section class="relative overflow-hidden">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_60%_at_15%_10%,var(--color-coral-100),transparent_70%),radial-gradient(50%_50%_at_90%_20%,var(--color-sea-100),transparent_70%)] opacity-80 dark:opacity-20"></div>
+    <div class="mx-auto max-w-6xl px-4 pb-10 pt-12 text-center md:pt-16">
+      <div class="mx-auto mb-5 flex justify-center"><Logo size={72} showText={false} /></div>
+      <h1 class="mx-auto max-w-3xl text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
+        Pro features. Free forever.
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-lg text-muted md:text-xl">
+        No signup. No watermark. Your files never leave your device. Image, PDF, QR code, signature and text tools that give your files a warm hug and then let them go.
+      </p>
+      <div class="mx-auto mt-8 max-w-xl">
+        <label for="tool-search" class="sr-only">{s.searchLabel}</label>
+        <div class="relative">
+          <span class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted"><Icon name="Search" size={20} /></span>
+          <input
+            id="tool-search"
+            type="search"
+            autocomplete="off"
+            placeholder={s.searchPlaceholder}
+            class="field !min-h-14 !rounded-full !pl-12 text-lg shadow-[var(--shadow-soft)]"
+          />
+        </div>
+        <p id="search-status" class="sr-only" aria-live="polite"></p>
+      </div>
+      <nav aria-label="Jump to a category" class="mt-6">
+        <ul class="flex flex-wrap justify-center gap-2">
+          {CATEGORIES.map((c) => (
+            <li>
+              <a href={`#${c.id}`} class="chip border border-line bg-surface text-fg no-underline hover:border-coral-300">
+                <Icon name={c.icon} size={16} /> {c.navLabel}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl px-4">
+    <p id="no-results" class="card hidden p-6 text-center text-muted">{s.noResults}</p>
+    {CATEGORIES.map((cat) => (
+      <section id={cat.id} class="tool-section mt-10 scroll-mt-20" aria-labelledby={`h-${cat.id}`}>
+        <div class="mb-4 flex items-center gap-3">
+          <span class="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent"><Icon name={cat.icon} size={22} /></span>
+          <div>
+            <h2 id={`h-${cat.id}`} class="text-2xl font-extrabold">{cat.label}</h2>
+            <p class="text-sm text-muted">{cat.blurb}</p>
+          </div>
+        </div>
+        <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {toolsIn(cat.id).map((tool) => <li class="tool-item"><ToolCard tool={tool} /></li>)}
+        </ul>
+      </section>
+    ))}
+  </div>
+
+  <AdSlot slot="in-content" />
+
+  <section class="mx-auto mt-16 max-w-6xl px-4" aria-labelledby="why-heading">
+    <h2 id="why-heading" class="text-center text-3xl font-extrabold">Why people feel safe here</h2>
+    <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {promises.map((p) => (
+        <li class="card p-5">
+          <span class="mb-3 grid size-11 place-items-center rounded-xl bg-surface-2 text-link"><Icon name={p.icon} size={22} /></span>
+          <h3 class="font-extrabold">{p.title}</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">{p.text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <div class="mx-auto max-w-3xl px-4">
+    <Faq items={faqs} />
+  </div>
+
+  <p class="sr-only">{TOOLS.length} tools available.</p>
+</BaseLayout>
+
+<script>
+  const input = document.getElementById('tool-search') as HTMLInputElement | null;
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.tool-item'));
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('.tool-section'));
+  const empty = document.getElementById('no-results');
+  const status = document.getElementById('search-status');
+  function apply() {
+    const words = (input?.value ?? '').toLowerCase().trim().split(/\s+/).filter(Boolean);
+    let shown = 0;
+    for (const item of items) {
+      const hay = item.querySelector<HTMLElement>('[data-search]')?.dataset.search ?? '';
+      const match = words.every((w) => hay.includes(w));
+      item.hidden = !match;
+      if (match) shown++;
+    }
+    for (const section of sections) section.hidden = !section.querySelector('.tool-item:not([hidden])');
+    empty?.classList.toggle('hidden', shown > 0);
+    if (status) status.textContent = words.length ? `${shown} tools found` : '';
+  }
+  input?.addEventListener('input', apply);
+  if (input?.value) apply();
+</script>

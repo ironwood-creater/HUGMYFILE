@@ -1,0 +1,12 @@
+---
+// Renders the interactive Preact island for a tool. Astro ships only the
+// JavaScript for the island actually rendered on each page.
+import type { IslandSpec } from '../data/tools';
+
+interface Props {
+  island: IslandSpec;
+}
+const { island } = Astro.props;
+---
+<div data-island={island.kind}>
+</div>

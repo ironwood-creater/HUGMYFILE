@@ -1,0 +1,32 @@
+---
+import * as lucide from 'lucide';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+}
+const { name, size = 24, class: className = '', strokeWidth = 2 } = Astro.props;
+type Node = [string, Record<string, string | number>][];
+const node = (lucide as unknown as Record<string, Node>)[name];
+if (!node) throw new Error(`Unknown lucide icon: ${name}`);
+const inner = node
+  .map(([tag, attrs]) => `<${tag} ${Object.entries(attrs).map(([k, v]) => `${k}="${v}"`).join(' ')}/>`)
+  .join('');
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden="true"
+  focusable="false"
+  set:html={inner}
+/>

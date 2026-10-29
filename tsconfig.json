@@ -1,0 +1,10 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*", "tests/**/*", "scripts/**/*", "*.ts", "*.mjs"],
+  "exclude": ["dist", "node_modules", "public", "test-results", "playwright-report", ".scratch", "reports", "tests/fixtures/files"],
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "noUncheckedIndexedAccess": true
+  }
+}

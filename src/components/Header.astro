@@ -1,0 +1,147 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { CATEGORIES, toolsIn } from '../data/tools';
+import { t } from '../i18n/ui';
+
+const s = t();
+const current = Astro.url.pathname.replace(/\/$/, '');
+---
+<a href="#main" class="sr-only-focusable fixed left-3 top-3 z-[100] rounded-full bg-primary px-4 py-2 font-bold text-on-primary">
+  {s.skipToContent}
+</a>
+<header class="sticky top-0 z-50 border-b border-line bg-bg/90 backdrop-blur supports-[backdrop-filter]:bg-bg/80">
+  <div class="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
+    <a href="/" class="mr-auto rounded-xl no-underline md:mr-4" aria-label="HugMyFile home">
+      <Logo size={36} />
+    </a>
+
+    <nav aria-label="Tool categories" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {CATEGORIES.map((cat) => {
+          const items = toolsIn(cat.id);
+          const active = items.some((tool) => current === `/${tool.slug}`);
+          return (
+            <li class="relative">
+              <details class="nav-dd group">
+                <summary
+                  class={`flex list-none items-center gap-1 rounded-full px-3 py-2 text-[0.95rem] font-bold hover:bg-surface-2 ${active ? 'bg-surface-2 text-link' : 'text-fg'}`}
+                >
+                  {cat.navLabel}
+                  <Icon name="ChevronDown" size={16} class="transition-transform group-open:rotate-180" />
+                </summary>
+                <div class="absolute left-0 top-full z-50 mt-2 w-72 rounded-2xl border border-line bg-surface p-2 shadow-[var(--shadow-lift)]">
+                  <ul>
+                    {items.map((tool) => (
+                      <li>
+                        <a
+                          href={`/${tool.slug}`}
+                          aria-current={current === `/${tool.slug}` ? 'page' : undefined}
+                          class="flex items-center gap-3 rounded-xl px-3 py-2 text-fg no-underline hover:bg-surface-2 aria-[current=page]:bg-surface-2"
+                        >
+                          <span class="grid size-8 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent">
+                            <Icon name={tool.icon} size={18} />
+                          </span>
+                          <span class="text-[0.95rem] font-semibold">{tool.name}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </details>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="theme-toggle"
+      class="btn btn-ghost size-11 !min-h-0 !p-0 md:ml-auto"
+      aria-label={s.themeToggle}
+      title={s.themeToggle}
+    >
+      <span class="block dark:hidden"><Icon name="Moon" size={20} /></span>
+      <span class="hidden dark:block"><Icon name="Sun" size={20} /></span>
+    </button>
+
+    <button
+      type="button"
+      id="menu-toggle"
+      class="btn btn-ghost size-11 !min-h-0 !p-0 md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label={s.menu}
+    >
+      <span class="menu-open-icon"><Icon name="Menu" size={22} /></span>
+      <span class="menu-close-icon hidden"><Icon name="X" size={22} /></span>
+    </button>
+  </div>
+
+  <nav id="mobile-nav" aria-label="Tool categories" class="hidden max-h-[calc(100dvh-4rem)] overflow-y-auto border-t border-line bg-bg px-4 pb-6 md:hidden">
+    <ul class="mx-auto max-w-6xl pt-2">
+      {CATEGORIES.map((cat) => (
+        <li class="border-b border-line last:border-b-0">
+          <details class="group">
+            <summary class="flex list-none items-center justify-between py-3 text-lg font-extrabold text-fg">
+              {cat.navLabel}
+              <Icon name="ChevronDown" size={20} class="transition-transform group-open:rotate-180" />
+            </summary>
+            <ul class="grid gap-1 pb-3">
+              {toolsIn(cat.id).map((tool) => (
+                <li>
+                  <a href={`/${tool.slug}`} class="flex items-center gap-3 rounded-xl px-2 py-2 font-semibold text-fg no-underline hover:bg-surface-2">
+                    <span class="grid size-8 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent"><Icon name={tool.icon} size={18} /></span>
+                    {tool.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('menu-toggle');
+  const mobileNav = document.getElementById('mobile-nav');
+  menuBtn?.addEventListener('click', () => {
+    const open = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!open));
+    mobileNav?.classList.toggle('hidden', open);
+    menuBtn.querySelector('.menu-open-icon')?.classList.toggle('hidden', !open);
+    menuBtn.querySelector('.menu-close-icon')?.classList.toggle('hidden', open);
+  });
+
+  const dropdowns = Array.from(document.querySelectorAll<HTMLDetailsElement>('details.nav-dd'));
+  for (const dd of dropdowns) {
+    dd.addEventListener('toggle', () => {
+      if (dd.open) for (const other of dropdowns) if (other !== dd) other.open = false;
+    });
+  }
+  document.addEventListener('click', (e) => {
+    for (const dd of dropdowns) if (dd.open && !dd.contains(e.target as Node)) dd.open = false;
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    for (const dd of dropdowns) {
+      if (dd.open) {
+        dd.open = false;
+        dd.querySelector('summary')?.focus();
+      }
+    }
+  });
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const dark = !document.documentElement.classList.contains('dark');
+    document.documentElement.classList.toggle('dark', dark);
+    try {
+      localStorage.setItem('hmf-theme', dark ? 'dark' : 'light');
+    } catch {
+      /* storage may be blocked; the toggle still works for this page */
+    }
+  });
+</script>

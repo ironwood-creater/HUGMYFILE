@@ -1,0 +1,33 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { CONTACT_EMAIL } from '../config';
+---
+<PageLayout
+  title="Contact HugMyFile – Questions, Bugs, Ideas"
+  description="Get in touch with HugMyFile about bugs, tool ideas or privacy questions. We never ask for your files: the tools run entirely on your device."
+  path="/contact"
+  h1="Contact us"
+  lead="Questions, bug reports and tool ideas are all welcome."
+>
+  {CONTACT_EMAIL ? (
+    <p>
+      The best way to reach us is by email at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. We read every message and
+      reply as soon as we can.
+    </p>
+  ) : (
+    <div class="card p-5" data-testid="contact-coming-soon">
+      <p class="!mb-0 font-bold">Our contact email is coming soon.</p>
+      <p class="!mb-0 mt-1 text-muted">We are setting up a proper inbox so that every message gets a reply. Please check back shortly.</p>
+    </div>
+  )}
+
+  <h2>Before you write</h2>
+  <ul>
+    <li><strong>Please never send us your files.</strong> Our tools work entirely on your device, and we do not need to see your documents to help.</li>
+    <li>For a bug report, tell us which tool you used, your browser (for example Safari on iPhone or Chrome on Windows) and what happened.</li>
+    <li>For a tool idea, describe what you would like to do with your file. Simple, everyday ideas are our favorite kind.</li>
+  </ul>
+
+  <h2>Privacy questions</h2>
+  <p>Our <a href="/privacy-policy">Privacy Policy</a> explains what happens (and what never happens) when you use the site.</p>
+</PageLayout>

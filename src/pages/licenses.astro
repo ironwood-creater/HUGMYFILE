@@ -1,0 +1,98 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import data from '../data/licenses.json';
+
+interface Component { name: string; license: string; copyright: string; url: string }
+interface Pkg { name: string; version: string; license: string; copyright: string; url: string; note: string; components: Component[]; licenseText: string }
+interface DataFile { name: string; license: string; copyright: string; url: string; note: string; licenseText: string }
+
+const packages = data.packages as Pkg[];
+const fonts = packages.filter((p) => p.name.startsWith('@fontsource/'));
+const libraries = packages.filter((p) => !p.name.startsWith('@fontsource/'));
+const files = data.data as DataFile[];
+const fontName = (pkg: string) =>
+  pkg.replace('@fontsource/', '').split('-').map((w) => w[0]!.toUpperCase() + w.slice(1)).join(' ');
+---
+<PageLayout
+  title="Open-Source Credits & Licenses | HugMyFile"
+  description="Every open-source library, font and data file that HugMyFile ships to your browser, with its license and copyright notice."
+  path="/licenses"
+  h1="Open-source credits"
+  lead="HugMyFile is built on wonderful open-source work. Here is everything we ship to your browser, with its license."
+>
+  <p>
+    All code, fonts and data files listed here are used under permissive licenses (MIT, Apache-2.0, BSD, ISC, CC0 or the SIL
+    Open Font License). This list is generated from the actual build, so it always matches what your browser downloads.
+  </p>
+
+  <h2>Libraries</h2>
+  <ul class="!list-none !pl-0 grid gap-3">
+    {libraries.map((p) => (
+      <li class="card p-4" data-testid="license-entry">
+        <p class="!mb-1 font-extrabold">
+          <a href={p.url} rel="noopener">{p.name}</a> <span class="font-normal text-muted">{p.version}</span>
+          <span class="chip ml-2 bg-accent-soft text-accent">{p.license}</span>
+        </p>
+        <p class="!mb-1 text-sm text-muted">{p.copyright}</p>
+        {p.note && <p class="!mb-1 text-sm">{p.note}</p>}
+        {p.components.length > 0 && (
+          <div class="mt-2 text-sm">
+            <p class="!mb-1 font-bold">Includes:</p>
+            <ul>
+              {p.components.map((c) => (
+                <li><a href={c.url} rel="noopener">{c.name}</a> ({c.license}) – {c.copyright}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {p.licenseText && (
+          <details class="mt-2">
+            <summary class="text-sm font-bold text-link">Show license text</summary>
+            <pre class="mt-2 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-surface-2 p-3 text-xs">{p.licenseText}</pre>
+          </details>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <h2>Fonts</h2>
+  <ul class="!list-none !pl-0 grid gap-3">
+    {fonts.map((p) => (
+      <li class="card p-4" data-testid="license-entry">
+        <p class="!mb-1 font-extrabold">
+          {fontName(p.name)} <span class="font-normal text-muted">via <a href={p.url} rel="noopener">{p.name}</a> {p.version}</span>
+          <span class="chip ml-2 bg-accent-soft text-accent">{p.license}</span>
+        </p>
+        <p class="!mb-1 text-sm text-muted">{p.copyright}</p>
+        {p.note && <p class="!mb-1 text-sm">{p.note}</p>}
+        <details class="mt-2">
+          <summary class="text-sm font-bold text-link">Show license text</summary>
+          <pre class="mt-2 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-surface-2 p-3 text-xs">{p.licenseText}</pre>
+        </details>
+      </li>
+    ))}
+  </ul>
+
+  <h2>Data files</h2>
+  <ul class="!list-none !pl-0 grid gap-3">
+    {files.map((d) => (
+      <li class="card p-4" data-testid="license-entry">
+        <p class="!mb-1 font-extrabold"><a href={d.url} rel="noopener">{d.name}</a> <span class="chip ml-2 bg-accent-soft text-accent">{d.license}</span></p>
+        <p class="!mb-1 text-sm text-muted">{d.copyright}</p>
+        <p class="!mb-1 text-sm">{d.note}</p>
+        {d.licenseText && (
+          <details class="mt-2">
+            <summary class="text-sm font-bold text-link">Show license text</summary>
+            <pre class="mt-2 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-surface-2 p-3 text-xs">{d.licenseText}</pre>
+          </details>
+        )}
+      </li>
+    ))}
+  </ul>
+
+  <h2>Icons and artwork</h2>
+  <p>
+    Interface icons come from <a href="https://lucide.dev" rel="noopener">Lucide</a> (ISC license, listed above). The HugMyFile
+    logo is original artwork.
+  </p>
+</PageLayout>

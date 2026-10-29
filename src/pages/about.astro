@@ -1,0 +1,54 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { TOOLS } from '../data/tools';
+---
+<PageLayout
+  title="About HugMyFile – Free Tools That Respect You"
+  description="Why HugMyFile exists: free, unlimited file tools with no signup and no watermark that run in your browser, so your files never leave your device."
+  path="/about"
+  h1="About HugMyFile"
+  lead="We hug your files. We never keep them."
+>
+  <p>
+    HugMyFile is a collection of {TOOLS.length} everyday file tools for images, PDFs, QR codes, signatures and text recognition.
+    It started from a simple frustration: the features people need most, like compressing a batch of photos, signing a PDF or
+    adding a logo to a QR code, are often hidden behind accounts, daily limits, watermarks or paid plans.
+  </p>
+  <p>We think those basics should be free, unlimited and private. So we built them that way.</p>
+
+  <h2>How it works</h2>
+  <p>
+    Every tool on this site runs inside your web browser. When you choose a file, your own device does the work using
+    well-known open-source libraries compiled to run in the browser. There is no upload step and no server that receives your
+    files, which means there is nothing for us to store, leak or delete.
+  </p>
+  <p>
+    Because the work happens on your device, speed depends on your computer or phone. Most tasks finish in a moment; very large
+    files or text recognition may take a little longer on older phones.
+  </p>
+
+  <h2>Our promises</h2>
+  <ul>
+    <li><strong>Runs on your device.</strong> Your files are processed locally and never leave your browser.</li>
+    <li><strong>Free.</strong> All tools are free to use, as often as you like, with no daily caps.</li>
+    <li><strong>No signup.</strong> There are no accounts and no logins anywhere on the site.</li>
+    <li><strong>No watermark.</strong> We never put our name or logo on your results.</li>
+    <li><strong>Honest about limits.</strong> If a tool cannot do something well (like a compression that would not help), it tells you plainly.</li>
+  </ul>
+
+  <h2>How we keep the lights on</h2>
+  <p>
+    Running a fast website still costs a little. In the future the site may show a small number of clearly labeled ads from
+    Google AdSense. Ads will never be placed on top of a tool or disguised as buttons, and they never get access to your files.
+    You can read exactly what that means in our <a href="/privacy-policy">Privacy Policy</a>.
+  </p>
+
+  <h2>Built on open source</h2>
+  <p>
+    HugMyFile stands on the shoulders of excellent open-source projects. You can see every library, font and data file we use,
+    along with its license, on our <a href="/licenses">Open-source credits</a> page.
+  </p>
+
+  <h2>Say hello</h2>
+  <p>Found a bug or have an idea for a tool? We would love to hear from you on our <a href="/contact">contact page</a>.</p>
+</PageLayout>

@@ -1,0 +1,56 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Build, type check, unit tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx astro check
+      - run: npm run test:unit
+
+  e2e:
+    name: E2E (${{ matrix.browser }}, desktop + mobile)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      # Chromium is always installed because the fixture generator draws test images with it.
+      - run: npx playwright install --with-deps chromium ${{ matrix.browser }}
+      - run: npm run build
+      - run: npx playwright test --project=${{ matrix.browser }}-desktop --project=${{ matrix.browser }}-mobile
+        env:
+          PW_REPORT_NAME: ${{ matrix.browser }}
+          PW_WORKERS: '2'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: results-${{ matrix.browser }}
+          path: |
+            reports/tmp/results-${{ matrix.browser }}.json
+            playwright-report/
+          retention-days: 14

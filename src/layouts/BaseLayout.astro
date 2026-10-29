@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_NAME, ANALYTICS_TOKEN, ADS_ENABLED, ADSENSE_CLIENT_ID } from '../config';
+import { absoluteUrl, organizationJsonLd } from '../lib/site';
+import nunito800 from '@fontsource/nunito/files/nunito-latin-800-normal.woff2?url';
+import nunito400 from '@fontsource/nunito/files/nunito-latin-400-normal.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path of this page, e.g. "/merge-pdf". Used for the canonical URL. */
+  path: string;
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+  ogType?: 'website' | 'article';
+}
+const { title, description, path, jsonLd = [], noindex = false, ogType = 'website' } = Astro.props;
+const canonical = absoluteUrl(path);
+const ogImage = absoluteUrl('/og-image.png');
+const structured = [organizationJsonLd(), ...jsonLd];
+const adsOn = ADS_ENABLED && ADSENSE_CLIENT_ID.length > 0;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#fffbf8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171311" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preload" href={nunito800} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={nunito400} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HugMyFile – free file tools that run on your device" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {structured.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try { stored = localStorage.getItem('hmf-theme'); } catch (e) {}
+        var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
+
+    {ANALYTICS_TOKEN && (
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: ANALYTICS_TOKEN })} />
+    )}
+    {adsOn && (
+      <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`} crossorigin="anonymous" />
+    )}
+  </head>
+  <body class="min-h-dvh">
+    <Header />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

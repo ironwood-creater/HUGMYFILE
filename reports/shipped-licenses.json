@@ -1,0 +1,224 @@
+{
+  "packages": [
+    {
+      "name": "@astrojs/preact",
+      "version": "6.1.1",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2021 Fred K. Schott",
+      "url": "https://docs.astro.build/en/guides/integrations-guide/preact/",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@fontsource/noto-sans",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "copyright": "Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic) NotoSans-Italic[wdth,wght].ttf: Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)",
+      "url": "https://fontsource.org/fonts/noto-sans",
+      "note": "Noto Sans font files embedded into PDFs you edit (/fonts/pdf)",
+      "components": []
+    },
+    {
+      "name": "@fontsource/nunito",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "copyright": "Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito) Nunito-Italic[wght].ttf: Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito)",
+      "url": "https://fontsource.org/fonts/nunito",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@preact/signals",
+      "version": "2.11.4",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2022-present Preact Team",
+      "url": "https://preactjs.com",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@preact/signals-core",
+      "version": "1.14.5",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2022-present Preact Team",
+      "url": "https://preactjs.com",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "astro",
+      "version": "7.4.4",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2021 Fred K. Schott",
+      "url": "https://astro.build",
+      "note": "Island hydration runtime included in each page",
+      "components": []
+    },
+    {
+      "name": "lucide",
+      "version": "1.64.0",
+      "license": "ISC",
+      "copyright": "Copyright (c) 2026 Lucide Icons and Contributors",
+      "url": "https://lucide.dev",
+      "note": "Interface icons (SVG paths drawn into pages and tools)",
+      "components": []
+    },
+    {
+      "name": "pdfjs-dist",
+      "version": "6.4.299",
+      "license": "Apache-2.0",
+      "copyright": "Copyright Mozilla Foundation and pdf.js contributors",
+      "url": "https://mozilla.github.io/pdf.js/",
+      "note": "PDF rendering worker, CMaps, standard fonts, ICC profile and image decoders (/vendor/pdfjs)",
+      "components": [
+        {
+          "name": "OpenJPEG",
+          "license": "BSD-2-Clause",
+          "copyright": "Copyright (c) 2002-2014, Universite catholique de Louvain (UCL), Belgium and others",
+          "url": "https://github.com/uclouvain/openjpeg"
+        },
+        {
+          "name": "PDFium JBIG2 decoder",
+          "license": "BSD-3-Clause",
+          "copyright": "Copyright 2014 The PDFium Authors",
+          "url": "https://pdfium.googlesource.com/pdfium/"
+        },
+        {
+          "name": "qcms",
+          "license": "MIT",
+          "copyright": "Copyright (C) 2009-2024 Mozilla Corporation; Copyright (C) 1998-2007 Marti Maria",
+          "url": "https://github.com/FirefoxGraphics/qcms"
+        },
+        {
+          "name": "ICC profile (CGATS001Compat)",
+          "license": "CC0-1.0",
+          "copyright": "Public domain dedication",
+          "url": "https://github.com/mozilla/pdf.js"
+        },
+        {
+          "name": "Foxit and Liberation standard font data",
+          "license": "BSD-3-Clause",
+          "copyright": "Copyright 2014 PDFium Authors; Liberation fonts under SIL OFL 1.1",
+          "url": "https://github.com/mozilla/pdf.js/tree/master/external/standard_fonts"
+        },
+        {
+          "name": "Adobe CMaps",
+          "license": "BSD-3-Clause",
+          "copyright": "Copyright 1990-2019 Adobe. All rights reserved.",
+          "url": "https://github.com/adobe-type-tools/cmap-resources"
+        }
+      ]
+    },
+    {
+      "name": "preact",
+      "version": "10.29.8",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2015-present Jason Miller",
+      "url": "https://preactjs.com",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "tailwindcss",
+      "version": "4.3.3",
+      "license": "MIT",
+      "copyright": "Copyright (c) Tailwind Labs, Inc.",
+      "url": "https://tailwindcss.com",
+      "note": "Generated CSS, including the Preflight base styles",
+      "components": []
+    },
+    {
+      "name": "tesseract.js",
+      "version": "7.0.0",
+      "license": "Apache-2.0",
+      "copyright": "Copyright (c) 2016 Jerome Wu, Guillermo Webster, Kevin Kwok and tesseract.js contributors",
+      "url": "https://github.com/naptha/tesseract.js",
+      "note": "OCR worker script (/vendor/tesseract)",
+      "components": [
+        {
+          "name": "zlib.js",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2012 imaya",
+          "url": "https://github.com/imaya/zlib.js"
+        },
+        {
+          "name": "regenerator-runtime",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2014-present, Facebook, Inc.",
+          "url": "https://github.com/facebook/regenerator"
+        },
+        {
+          "name": "buffer",
+          "license": "MIT",
+          "copyright": "Copyright (c) Feross Aboukhadijeh, and other contributors",
+          "url": "https://github.com/feross/buffer"
+        },
+        {
+          "name": "ieee754",
+          "license": "BSD-3-Clause",
+          "copyright": "Copyright 2008 Fair Oaks Labs, Inc.",
+          "url": "https://github.com/feross/ieee754"
+        },
+        {
+          "name": "bmp-js",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2014 @丝刀口",
+          "url": "https://github.com/shaozilee/bmp-js"
+        },
+        {
+          "name": "wasm-feature-detect",
+          "license": "Apache-2.0",
+          "copyright": "Copyright Google Inc.",
+          "url": "https://github.com/GoogleChromeLabs/wasm-feature-detect"
+        },
+        {
+          "name": "is-url",
+          "license": "MIT",
+          "copyright": "Copyright (c) 2013 segmentio",
+          "url": "https://github.com/segmentio/is-url"
+        }
+      ]
+    },
+    {
+      "name": "tesseract.js-core",
+      "version": "7.0.0",
+      "license": "Apache-2.0",
+      "copyright": "Copyright (c) 2016 Jerome Wu, Guillermo Webster and tesseract.js-core contributors",
+      "url": "https://github.com/naptha/tesseract.js-core",
+      "note": "Tesseract OCR engine compiled to WebAssembly (/vendor/tesseract/core)",
+      "components": [
+        {
+          "name": "Tesseract OCR",
+          "license": "Apache-2.0",
+          "copyright": "Copyright Google Inc. and Tesseract contributors",
+          "url": "https://github.com/tesseract-ocr/tesseract"
+        },
+        {
+          "name": "Leptonica",
+          "license": "BSD-2-Clause",
+          "copyright": "Copyright (C) 2001-2024 Leptonica",
+          "url": "http://www.leptonica.org"
+        }
+      ]
+    },
+    {
+      "name": "vite",
+      "version": "8.3.5",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2019-present, VoidZero Inc. and Vite contributors",
+      "url": "https://vite.dev",
+      "note": "",
+      "components": []
+    }
+  ],
+  "data": [
+    {
+      "name": "tessdata_fast language models (eng, spa, fra, deu, por, ara, hin, urd, ind)",
+      "license": "Apache-2.0",
+      "copyright": "Copyright Google Inc. and Tesseract contributors",
+      "url": "https://github.com/tesseract-ocr/tessdata_fast",
+      "note": "Downloaded once into /vendor/tessdata; each file is fetched only when its language is chosen."
+    }
+  ],
+  "problems": []
+}

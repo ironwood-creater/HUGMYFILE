@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.scratch/
+test-results/
+playwright-report/
+blob-report/
+tests/fixtures/files/
+reports/tmp/
+public/vendor/pdfjs/
+public/vendor/tesseract/
+public/fonts/pdf/
+*.log
+.DS_Store

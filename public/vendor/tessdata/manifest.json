@@ -1,0 +1,47 @@
+{
+  "eng": {
+    "bytes": 4113088,
+    "gzBytes": 1962155,
+    "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2"
+  },
+  "spa": {
+    "bytes": 2294433,
+    "gzBytes": 1125535,
+    "sha256": "6f2e04d02774a18f01bed44b1111f2cd7f3ba7ac9dc4373cd3f898a40ea6b464"
+  },
+  "fra": {
+    "bytes": 1130365,
+    "gzBytes": 605839,
+    "sha256": "ced037562e8c80c13122dece28dd477d399af80911a28791a66a63ac1e3445ca"
+  },
+  "deu": {
+    "bytes": 1525436,
+    "gzBytes": 850091,
+    "sha256": "19d219bbb6672c869d20a9636c6816a81eb9a71796cb93ebe0cb1530e2cdb22d"
+  },
+  "por": {
+    "bytes": 1982756,
+    "gzBytes": 998523,
+    "sha256": "c4932b937207a9514b7514d518b931a99938c02a28a5a5a553f8599ed58b7deb"
+  },
+  "ara": {
+    "bytes": 1432056,
+    "gzBytes": 715721,
+    "sha256": "e3206d3dc87fd50c24a0fb9f01838615911d25168f4e64415244b67d2bb3e729"
+  },
+  "hin": {
+    "bytes": 1122751,
+    "gzBytes": 920821,
+    "sha256": "4c73ffc59d497c186b19d1e90f5d721d678ea6b2e277b719bee4e2af12271825"
+  },
+  "urd": {
+    "bytes": 1398718,
+    "gzBytes": 1031604,
+    "sha256": "62e8250ce2a994106e313a82e26a516a39e2cf159d0ce3c5b5008387fd0d555f"
+  },
+  "ind": {
+    "bytes": 1122661,
+    "gzBytes": 607367,
+    "sha256": "69786901da87ab8766c1ea7fbb10b28f2110c14da3f6c8f2735df131fba95d88"
+  }
+}

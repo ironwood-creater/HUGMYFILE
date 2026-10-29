@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { t } from '../i18n/ui';
+const s = t();
+const icons = ['Laptop', 'Gift', 'UserX', 'BadgeCheck'];
+---
+<ul class="flex flex-wrap items-center gap-2" aria-label="What this tool promises" data-testid="tool-badge">
+  {s.badge.map((label, i) => (
+    <li class="chip border border-sea-200 bg-accent-soft text-accent dark:border-sea-800">
+      <Icon name={icons[i] ?? 'Check'} size={15} />
+      {label}
+    </li>
+  ))}
+</ul>

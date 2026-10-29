@@ -1,0 +1,47 @@
+---
+import Logo from './Logo.astro';
+import { CATEGORIES, toolsIn } from '../data/tools';
+import { t } from '../i18n/ui';
+import { SITE_NAME } from '../config';
+
+const s = t();
+const year = new Date().getFullYear();
+---
+<footer class="mt-20 border-t border-line bg-surface">
+  <div class="mx-auto max-w-6xl px-4 py-12">
+    <div class="grid gap-10 lg:grid-cols-[1.2fr_3fr]">
+      <div>
+        <a href="/" class="inline-block rounded-xl no-underline" aria-label="HugMyFile home"><Logo size={34} /></a>
+        <p class="mt-3 max-w-xs text-sm leading-relaxed text-muted">{s.footerAbout}</p>
+        <ul class="mt-4 flex flex-wrap gap-2" aria-label="Our promises">
+          {s.badge.map((b) => <li class="chip bg-accent-soft text-accent">{b}</li>)}
+        </ul>
+      </div>
+      <div class="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-5">
+        {CATEGORIES.map((cat) => (
+          <div>
+            <h2 class="mb-3 text-sm font-extrabold uppercase tracking-wide text-fg">{cat.navLabel}</h2>
+            <ul class="space-y-2 text-sm">
+              {toolsIn(cat.id).map((tool) => (
+                <li><a href={`/${tool.slug}`} class="text-muted no-underline hover:text-link hover:underline">{tool.name}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="mt-10 flex flex-col gap-4 border-t border-line pt-6 text-sm text-muted md:flex-row md:items-center md:justify-between">
+      <nav aria-label="Site information">
+        <ul class="flex flex-wrap gap-x-5 gap-y-2">
+          <li><a href="/about" class="text-muted hover:text-link">About</a></li>
+          <li><a href="/contact" class="text-muted hover:text-link">Contact</a></li>
+          <li><a href="/privacy-policy" class="text-muted hover:text-link">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-muted hover:text-link">Terms of Use</a></li>
+          <li><a href="/licenses" class="text-muted hover:text-link">Open-source credits</a></li>
+        </ul>
+      </nav>
+      <p>© {year} {SITE_NAME}</p>
+    </div>
+    <p class="mt-4 text-xs leading-relaxed text-muted">{s.trademarks}</p>
+  </div>
+</footer>
