@@ -90,6 +90,33 @@ const COPYRIGHT_OVERRIDES = {
   '@jsquash/resize': 'Copyright 2020 Google Inc.; jSquash by Jamie Sinclair',
 };
 
+// Some packages declare MIT in package.json but ship no LICENSE file. MIT still
+// requires reproducing the notice, so we include the standard text here.
+const MIT_TEXT = (holder) => `MIT License
+
+Copyright (c) ${holder}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.`;
+const LICENSE_FALLBACK = {
+  '@pdf-lib/fontkit': { copyright: 'Copyright (c) 2014 Devon Govett; 2020 Andrew Dillon', text: MIT_TEXT('2014 Devon Govett, 2020 Andrew Dillon') },
+};
+
 function packageOf(id) {
   if (id.startsWith('\u0000vite/')) return 'vite';
   if (id.startsWith('\u0000rolldown/') || id.includes('rolldown:runtime')) return 'rolldown';
@@ -105,10 +132,11 @@ function readPkg(name) {
   const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'));
   let license = typeof pkg.license === 'string' ? pkg.license : pkg.license?.type ?? (pkg.licenses?.map((l) => l.type).join(' OR ') || 'UNKNOWN');
   const licenseFile = readdirSync(dir).find((f) => /^(licen[cs]e|copying)(\.(md|txt))?$/i.test(f));
-  const text = licenseFile ? readFileSync(join(dir, licenseFile), 'utf8').trim() : '';
+  const fallback = LICENSE_FALLBACK[name];
+  const text = licenseFile ? readFileSync(join(dir, licenseFile), 'utf8').trim() : fallback && license === 'MIT' ? fallback.text : '';
   const found = text.split('\n').find((l) => /^\s*(copyright\s*(\(c\)|©|\d)|\(c\)\s*\d|©)/i.test(l));
   const author = typeof pkg.author === 'string' ? pkg.author : pkg.author?.name;
-  const copyright = COPYRIGHT_OVERRIDES[name] ?? found ?? (author ? `Copyright (c) ${author}` : `Copyright (c) the ${name} authors`);
+  const copyright = COPYRIGHT_OVERRIDES[name] ?? fallback?.copyright ?? found ?? (author ? `Copyright (c) ${author}` : `Copyright (c) the ${name} authors`);
   const repo = typeof pkg.repository === 'string' ? pkg.repository : pkg.repository?.url ?? '';
   const url = (pkg.homepage || repo || `https://www.npmjs.com/package/${name}`).replace(/^git\+/, '').replace(/\.git$/, '').replace(/^git:\/\//, 'https://');
   return { name, version: pkg.version, license, copyright: copyright.trim(), url, licenseText: text };

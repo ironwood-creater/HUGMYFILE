@@ -10,6 +10,33 @@
       "components": []
     },
     {
+      "name": "@fontsource/caveat",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "copyright": "Copyright 2014 The Caveat Project Authors (https://github.com/googlefonts/caveat)",
+      "url": "https://fontsource.org/fonts/caveat",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@fontsource/dancing-script",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "copyright": "Copyright 2016 The Dancing Script Project Authors (https://github.com/googlefonts/DancingScript), with Reserved Font Name 'Dancing Script'.",
+      "url": "https://fontsource.org/fonts/dancing-script",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@fontsource/great-vibes",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "copyright": "Copyright 2010 The Great Vibes Pro Project Authors (https://github.com/googlefonts/great-vibes)",
+      "url": "https://fontsource.org/fonts/great-vibes",
+      "note": "",
+      "components": []
+    },
+    {
       "name": "@fontsource/noto-sans",
       "version": "5.3.0",
       "license": "OFL-1.1",
@@ -24,6 +51,15 @@
       "license": "OFL-1.1",
       "copyright": "Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito) Nunito-Italic[wght].ttf: Copyright 2014 The Nunito Project Authors (https://github.com/googlefonts/nunito)",
       "url": "https://fontsource.org/fonts/nunito",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "@fontsource/sacramento",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "copyright": "Copyright (c) 2012 by Brian J. Bonislawsky DBA Astigmatic (AOETI) (astigma@astigmatic.com), with Reserved Font Name 'Sacramento'",
+      "url": "https://fontsource.org/fonts/sacramento",
       "note": "",
       "components": []
     },
@@ -124,6 +160,15 @@
           "url": "https://chromium.googlesource.com/webm/libwebp"
         }
       ]
+    },
+    {
+      "name": "@pdf-lib/fontkit",
+      "version": "1.1.1",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2014 Devon Govett; 2020 Andrew Dillon",
+      "url": "https://github.com/Hopding/fontkit",
+      "note": "",
+      "components": []
     },
     {
       "name": "@pdf-lib/standard-fonts",
@@ -276,6 +321,15 @@
       "license": "MIT",
       "copyright": "Copyright (c) 2024-present VoidZero Inc. & Contributors",
       "url": "https://rolldown.rs/",
+      "note": "",
+      "components": []
+    },
+    {
+      "name": "signature_pad",
+      "version": "5.1.4",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2018 Szymon Nowak",
+      "url": "https://github.com/szimek/signature_pad",
       "note": "",
       "components": []
     },

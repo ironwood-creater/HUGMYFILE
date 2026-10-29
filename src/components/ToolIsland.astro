@@ -9,6 +9,16 @@ import ConvertImage from '../islands/image/ConvertImage';
 import HeicConvert from '../islands/image/HeicConvert';
 import PassportPhoto from '../islands/image/PassportPhoto';
 import QrTool from '../islands/qr/QrTool';
+import PdfMerge from '../islands/pdf/PdfMerge';
+import PdfSplit from '../islands/pdf/PdfSplit';
+import PdfCompress from '../islands/pdf/PdfCompress';
+import PdfPages from '../islands/pdf/PdfPages';
+import PdfPageNumbers from '../islands/pdf/PdfPageNumbers';
+import ImagesToPdf from '../islands/pdf/ImagesToPdf';
+import PdfToImages from '../islands/pdf/PdfToImages';
+import PdfEditor from '../islands/pdf/PdfEditor';
+import PdfFillForm from '../islands/pdf/PdfFillForm';
+import SignatureMaker from '../islands/signature/SignatureMaker';
 
 interface Props {
   island: IslandSpec;
@@ -23,4 +33,15 @@ const { island } = Astro.props;
   {island.kind === 'heic' && <HeicConvert client:load />}
   {island.kind === 'passport' && <PassportPhoto client:load />}
   {island.kind === 'qr' && <QrTool client:load type={island.type} logo={island.logo ?? false} />}
+  {island.kind === 'pdf-merge' && <PdfMerge client:load />}
+  {island.kind === 'pdf-split' && <PdfSplit client:load />}
+  {island.kind === 'pdf-compress' && <PdfCompress client:load />}
+  {island.kind === 'pdf-pages' && <PdfPages client:load mode={island.mode} />}
+  {island.kind === 'pdf-numbers' && <PdfPageNumbers client:load />}
+  {island.kind === 'images-to-pdf' && <ImagesToPdf client:load />}
+  {island.kind === 'pdf-to-images' && <PdfToImages client:load format={island.format} />}
+  {island.kind === 'pdf-sign' && <PdfEditor client:load mode="sign" />}
+  {island.kind === 'pdf-edit' && <PdfEditor client:load mode="edit" />}
+  {island.kind === 'pdf-form' && <PdfFillForm client:load />}
+  {island.kind === 'signature' && <SignatureMaker client:load />}
 </div>
