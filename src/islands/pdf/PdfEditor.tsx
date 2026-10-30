@@ -16,6 +16,7 @@ import { baseName } from '../../lib/format';
 import type { OverlayItem } from '../../lib/pdf/types';
 
 type Item = OverlayItem & { id: number; url?: string };
+type TextItem = Extract<OverlayItem, { kind: 'text' }> & { id: number };
 type Mode = 'sign' | 'edit';
 const LINE_HEIGHT = 1.25;
 let nextId = 1;
@@ -103,6 +104,22 @@ export default function PdfEditor({ mode }: { mode: Mode }) {
       setItems(next);
       setResult(null);
     }
+  };
+  const setTextStyle = (it: TextItem, patch: { text?: string; size?: number; bold?: boolean }, record = true) => {
+    const next = { text: it.text, size: it.size, bold: it.bold, ...patch };
+    update(it.id, { ...patch, ...measureText(next.text || ' ', next.size, next.bold) } as Partial<Item>, record);
+    // The first measurement may use a fallback font while this weight or script of Noto Sans is still loading.
+    document.fonts.load(`${next.bold ? 700 : 400} ${next.size}px "Noto Sans"`, next.text || ' ').then(
+      () =>
+        setItems((cur) =>
+          cur.map((c) =>
+            c.id === it.id && c.kind === 'text' && c.text === next.text && c.size === next.size && c.bold === next.bold
+              ? ({ ...c, ...measureText(next.text || ' ', next.size, next.bold) } as Item)
+              : c,
+          ),
+        ),
+      () => {},
+    );
   };
   const undo = () => {
     const prev = history[history.length - 1];
@@ -410,18 +427,14 @@ export default function PdfEditor({ mode }: { mode: Mode }) {
                 <textarea
                   class="field min-h-20"
                   value={sel.text}
-                  onInput={(e) => {
-                    const text = e.currentTarget.value;
-                    const m = measureText(text || ' ', sel.size, sel.bold);
-                    update(sel.id, { text, w: m.w, h: m.h } as Partial<Item>, false);
-                  }}
+                  onInput={(e) => setTextStyle(sel, { text: e.currentTarget.value }, false)}
                   data-testid="text-input"
                 />
               </label>
               <div class="grid grid-cols-2 gap-2">
                 <label class="block">
                   <span class="field-label">Size</span>
-                  <input type="number" min={6} max={144} class="field" value={Math.round(sel.size)} onInput={(e) => { const size = Math.max(6, Math.min(144, Number(e.currentTarget.value) || 12)); const m = measureText(sel.text, size, sel.bold); update(sel.id, { size, w: m.w, h: m.h } as Partial<Item>); }} data-testid="text-size" />
+                  <input type="number" min={6} max={144} class="field" value={Math.round(sel.size)} onInput={(e) => setTextStyle(sel, { size: Math.max(6, Math.min(144, Number(e.currentTarget.value) || 12)) })} data-testid="text-size" />
                 </label>
                 <label class="block">
                   <span class="field-label">Color</span>
@@ -429,7 +442,7 @@ export default function PdfEditor({ mode }: { mode: Mode }) {
                 </label>
               </div>
               <label class="flex items-center gap-2">
-                <input type="checkbox" class="size-5" checked={sel.bold} onChange={(e) => { const bold = e.currentTarget.checked; const m = measureText(sel.text, sel.size, bold); update(sel.id, { bold, w: m.w, h: m.h } as Partial<Item>); }} />
+                <input type="checkbox" class="size-5" checked={sel.bold} onChange={(e) => setTextStyle(sel, { bold: e.currentTarget.checked })} />
                 <span class="font-bold">Bold</span>
               </label>
             </>

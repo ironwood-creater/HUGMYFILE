@@ -305,6 +305,19 @@ test.describe('PDF tools', () => {
     expect(await pageImageCount(out.buf, 0)).toBe(1);
   });
 
+  test('add-text-to-pdf keeps the text frame around bold and Cyrillic text', async ({ page }) => {
+    await openTool(page, 'add-text-to-pdf');
+    await upload(page, 'doc3.pdf');
+    await page.getByTestId('add-text').click();
+    const item = page.locator('[data-testid="overlay-item"][data-kind="text"]');
+    const overflow = () => item.locator('span').first().evaluate((el) => el.scrollWidth - el.clientWidth);
+    await page.getByTestId('text-input').fill('Paid in full – thank you!');
+    await page.getByLabel('Bold').check();
+    await expect.poll(overflow).toBeLessThanOrEqual(1);
+    await page.getByTestId('text-input').fill('Оплачено полностью – спасибо!');
+    await expect.poll(overflow).toBeLessThanOrEqual(1);
+  });
+
   test('add-text-to-pdf shows a friendly message for Hindi text', async ({ page }) => {
     await openTool(page, 'add-text-to-pdf');
     await upload(page, 'doc3.pdf');
