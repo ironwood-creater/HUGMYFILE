@@ -1,11 +1,37 @@
 # HugMyFile
 
+![HugMyFile – Pro features. Free forever.](docs/brand/banner-1500x500.png)
+
 Free, private online tools for images, PDFs, QR codes, signatures and text recognition.
 **Pro features. Free forever. No signup. No watermark. Your files never leave your device.**
 
 Every tool runs entirely in the visitor's browser (Web Workers + WebAssembly). There is no
 backend, no database, no accounts and no file uploads. The site is a static Astro build that
 deploys to Cloudflare Pages.
+
+## Screenshots
+
+| | |
+|---|---|
+| ![Home](docs/screenshots/01-home.png) | ![Home in dark mode](docs/screenshots/02-home-dark.png) |
+| ![Compress Image](docs/screenshots/04-compress-image.png) | ![Bulk Image Compressor](docs/screenshots/05-bulk-image-compressor.png) |
+| ![Passport Photo Maker](docs/screenshots/06-passport-photo-maker.png) | ![QR Code with Logo](docs/screenshots/07-qr-code-with-logo.png) |
+| ![Merge PDF](docs/screenshots/09-merge-pdf.png) | ![Sign PDF](docs/screenshots/10-sign-pdf.png) |
+| ![Add Text to PDF](docs/screenshots/11-add-text-to-pdf.png) | ![Fill PDF Form](docs/screenshots/12-fill-pdf-form.png) |
+| ![Rotate PDF](docs/screenshots/13-rotate-pdf.png) | ![Compress PDF](docs/screenshots/14-compress-pdf.png) |
+| ![Signature Maker](docs/screenshots/15-signature-maker.png) | ![Image to Text](docs/screenshots/16-image-to-text.png) |
+
+Phone (390×844): [home](docs/screenshots/03-home-mobile.png), [WiFi QR code](docs/screenshots/08-wifi-qr-code-mobile.png), [Compress Image](docs/screenshots/17-compress-image-mobile.png).
+
+Banners and logo files are in `docs/brand`. Every image is generated from the real site with demo files made on the fly (no real people or documents):
+
+```bash
+npm run build
+```
+
+```bash
+npm run showcase
+```
 
 ## Quick start
 

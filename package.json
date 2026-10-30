@@ -9,6 +9,7 @@
     "setup:assets": "node scripts/setup-assets.mjs",
     "setup:tessdata": "node scripts/download-tessdata.mjs",
     "brand": "node scripts/make-brand-assets.mjs",
+    "showcase": "node scripts/make-showcase.mjs",
     "prebuild": "node scripts/setup-assets.mjs",
     "build": "astro build",
     "postbuild": "node scripts/license-report.mjs && node scripts/check-dist.mjs",
