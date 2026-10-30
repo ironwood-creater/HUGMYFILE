@@ -39,7 +39,7 @@ for (const f of readdirSync(dir).filter((x) => /^results-.*\.json$/.test(x))) {
 }
 
 const ran = PROJECTS.filter((p) => [...results.values()].some((r) => r[p]));
-const counts = Object.fromEntries(PROJECTS.map((p) => [p, { pass: 0, fail: 0 }]));
+const counts = Object.fromEntries(PROJECTS.map((p) => [p, { pass: 0, fail: 0, flaky: 0, skipped: 0 }]));
 const lines = [];
 lines.push('# End-to-end test results', '');
 lines.push(`Generated ${new Date().toISOString()} from ${meta.length} Playwright report(s).`, '');
@@ -52,15 +52,22 @@ for (const [key, row] of [...results.entries()].sort()) {
     const s = row[p];
     if (!s) return 'not run';
     if (s === 'pass') counts[p].pass++;
+    else if (s === 'flaky') counts[p].flaky++;
+    else if (s === 'skipped') counts[p].skipped++;
     else counts[p].fail++;
-    return s === 'pass' ? '✅' : s === 'FAIL' ? '❌ FAIL' : s;
+    // A skipped test is one that does not apply to that screen size (for example phone-only menus).
+    return s === 'pass' ? '✅' : s === 'FAIL' ? '❌ FAIL' : s === 'skipped' ? 'n/a' : s;
   });
   lines.push(`| ${key.replace(/\|/g, '\\|')} | ${cells.join(' | ')} |`);
 }
 lines.push('');
-lines.push('| Project | Passed | Failed |', '|---|---|---|');
-for (const p of PROJECTS) lines.push(`| ${p} | ${ran.includes(p) ? counts[p].pass : 'not run'} | ${ran.includes(p) ? counts[p].fail : 'not run'} |`);
+lines.push('"n/a" marks a test that does not apply to that project (desktop-only or phone-only checks).', '');
+lines.push('| Project | Passed | Failed | Flaky | Not applicable |', '|---|---|---|---|---|');
+for (const p of PROJECTS) {
+  const c = counts[p];
+  lines.push(ran.includes(p) ? `| ${p} | ${c.pass} | ${c.fail} | ${c.flaky} | ${c.skipped} |` : `| ${p} | not run | not run | not run | not run |`);
+}
 mkdirSync(join(root, 'reports'), { recursive: true });
 writeFileSync(join(root, 'reports', 'test-results.md'), lines.join('\n') + '\n');
 console.log(`Wrote reports/test-results.md (${results.size} tests; projects run: ${ran.join(', ') || 'none'})`);
-for (const p of PROJECTS) if (ran.includes(p)) console.log(`  ${p}: ${counts[p].pass} passed, ${counts[p].fail} failed`);
+for (const p of PROJECTS) if (ran.includes(p)) console.log(`  ${p}: ${counts[p].pass} passed, ${counts[p].fail} failed, ${counts[p].flaky} flaky, ${counts[p].skipped} not applicable`);
