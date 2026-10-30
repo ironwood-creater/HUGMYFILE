@@ -1,8 +1,8 @@
 # End-to-end test results
 
-Generated 2026-10-30T05:30:23.345Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit are configured but could not run in the build environment (their download server was blocked); they run in GitHub Actions.
+Generated 2026-10-30T16:11:27.376Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
 
-- results-chromium.json: 302 passed, 0 failed, 0 flaky, 0 skipped (220 s)
+- results-chromium.json: 313 passed, 0 failed, 0 flaky, 5 skipped (244 s)
 
 | Test | Chromium 🖥 | Chromium 📱 | Firefox 🖥 | Firefox 📱 | WebKit 🖥 | WebKit 📱 |
 |---|---|---|---|---|---|---|
@@ -129,6 +129,7 @@ Generated 2026-10-30T05:30:23.345Z from 1 Playwright report (`npm run build && n
 | qr.spec.ts › QR code tools › wifi-qr-code escapes special characters correctly | ✅ | ✅ | not run | not run | not run | not run |
 | seo.spec.ts › SEO and content checks (all pages) › canonical URLs, Open Graph and Twitter tags use SITE_URL | ✅ | ✅ | not run | not run | not run | not run |
 | seo.spec.ts › SEO and content checks (all pages) › every required page exists | ✅ | ✅ | not run | not run | not run | not run |
+| seo.spec.ts › SEO and content checks (all pages) › headings never skip a level (h1 → h2 → h3) | ✅ | ✅ | not run | not run | not run | not run |
 | seo.spec.ts › SEO and content checks (all pages) › sitemap lists every page except 404 | ✅ | ✅ | not run | not run | not run | not run |
 | seo.spec.ts › SEO and content checks (all pages) › structured data: Organization everywhere; SoftwareApplication, BreadcrumbList and FAQPage on tools | ✅ | ✅ | not run | not run | not run | not run |
 | seo.spec.ts › SEO and content checks (all pages) › titles, descriptions and H1s are present and unique | ✅ | ✅ | not run | not run | not run | not run |
@@ -141,18 +142,25 @@ Generated 2026-10-30T05:30:23.345Z from 1 Playwright report (`npm run build && n
 | signature.spec.ts › signature maker › undo removes the last stroke and clear empties the pad | ✅ | ✅ | not run | not run | not run | not run |
 | signature.spec.ts › signature maker › uploaded signature photo gets a transparent background | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › licenses page lists shipped libraries with their licenses | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › no page scrolls sideways on a small 320px phone | skipped | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › /about renders | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › /contact renders | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › /privacy-policy renders | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › /terms renders | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › a menu opens on mouse hover, stays open when clicked, and closes when the mouse leaves | ✅ | skipped | not run | not run | not run | not run |
 | site.spec.ts › site shell › ads are off: no ad slots or ad scripts are rendered | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › category chips glide to their section below the header, even after a search hid it | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › contact page shows the coming-soon note while no email is set | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › footer carries the trademark notice | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › header menus stay on screen and every tool can be reached on tablets and short laptops | ✅ | skipped | not run | not run | not run | not run |
 | site.spec.ts › site shell › homepage shows every tool and search filters them | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › hovering or focusing a link starts loading that page early | ✅ | skipped | not run | not run | not run | not run |
 | site.spec.ts › site shell › navigation menu opens on desktop and phone | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › privacy policy states that files are never uploaded | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › robots.txt and sitemap point at SITE_URL | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › terms include the signature and ownership rules | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › the header marks the section of the current tool | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › the phone menu opens the current section, keeps the page still and closes with Escape | skipped | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › theme toggle switches to dark mode | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › unknown pages show the friendly 404 | ✅ | ✅ | not run | not run | not run | not run |
 | unsaved.spec.ts › unsaved result warning › does not warn after the result was downloaded | ✅ | ✅ | not run | not run | not run | not run |
@@ -160,8 +168,8 @@ Generated 2026-10-30T05:30:23.345Z from 1 Playwright report (`npm run build && n
 
 | Project | Passed | Failed |
 |---|---|---|
-| chromium-desktop | 151 | 0 |
-| chromium-mobile | 151 | 0 |
+| chromium-desktop | 157 | 2 |
+| chromium-mobile | 156 | 3 |
 | firefox-desktop | not run | not run |
 | firefox-mobile | not run | not run |
 | webkit-desktop | not run | not run |
