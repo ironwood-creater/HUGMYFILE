@@ -19,7 +19,7 @@ npm run build
 npm run preview
 ```
 
-3. Open the address it prints (usually <http://localhost:4321>).
+3. Open the address it prints (usually <http://localhost:4321>). Press Ctrl+C in the terminal to stop it.
 
 To run the tests on your computer:
 
@@ -76,7 +76,7 @@ export const SITE_URL = 'https://hugmyfile.com';
      - Source URL: `hugmyfile.pages.dev`
      - Target URL: `https://hugmyfile.com`
      - Status: **301**
-     - Turn on **Preserve query string**, **Subpath matching**, **Preserve path suffix** and **Include subdomains**.
+     - Turn on **Preserve query string**, **Subpath matching** and **Preserve path suffix**. Leave **Include subdomains** off so preview builds (like `abc123.hugmyfile.pages.dev`) keep working.
    - Then **Create Bulk Redirect Rule** using that list and enable it.
    - If you added `www`, add a Redirect Rule in the `hugmyfile.com` zone from `www.hugmyfile.com/*` to `https://hugmyfile.com/${1}` (301).
 5. In Google Search Console, add `https://hugmyfile.com` and submit `https://hugmyfile.com/sitemap-index.xml`.

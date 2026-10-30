@@ -1,8 +1,8 @@
 # End-to-end test results
 
-Generated 2026-10-29T18:10:15.926Z from 1 Playwright report(s).
+Generated 2026-10-30T04:56:16.684Z from 1 Playwright report (run on a fresh clone of the repository: `npm ci && npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit are configured but could not run in the build environment (their download server was blocked); they run in GitHub Actions.
 
-- results-chromium.json: 300 passed, 0 failed, 0 flaky, 0 skipped (210 s)
+- results-chromium.json: 300 passed, 0 failed, 0 flaky, 0 skipped (205 s)
 
 | Test | Chromium 🖥 | Chromium 📱 | Firefox 🖥 | Firefox 📱 | WebKit 🖥 | WebKit 📱 |
 |---|---|---|---|---|---|---|
