@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Options as QrOptions, DotType, CornerSquareType, CornerDotType } from 'qr-code-styling';
 import { ImagePlus, Trash2 } from 'lucide';
 import Icon, { type IconNode } from '../shared/Icon';
@@ -206,7 +206,8 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
     };
   });
 
-  useEffect(() => {
+  // Armed before paint, so the warning is active as soon as the code shows.
+  useLayoutEffect(() => {
     if (data) markUnsaved(unsavedId.current);
     else markSaved(unsavedId.current);
   }, [data]);

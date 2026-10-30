@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useLayoutEffect, useMemo, useState } from 'preact/hooks';
 import { clearUnsaved, markSaved, markUnsaved, newResultId } from '../../lib/unsaved';
 
 /**
@@ -9,7 +9,9 @@ export function useUnsaved(count: number, key: unknown) {
   const ids = useMemo(() => Array.from({ length: count }, () => newResultId()), [count, key]);
   const [saved, setSaved] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
+  // A layout effect runs before the browser paints, so the warning is armed before the
+  // "Your file will be lost…" notice appears (a normal effect left a short gap after it).
+  useLayoutEffect(() => {
     setSaved(new Set());
     for (const id of ids) markUnsaved(id);
     return () => clearUnsaved(ids);

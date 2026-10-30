@@ -191,7 +191,9 @@ test('no page scrolls sideways on a small 320px phone', async ({ page }) => {
   expect(paths.length).toBeGreaterThan(40);
   await page.setViewportSize({ width: 320, height: 640 });
   for (const path of [...paths, '/this-page-does-not-exist']) {
-    await page.goto(path);
+    // Let the tool finish loading: its interactive part can change the width, and leaving mid-load
+    // makes WebKit abort the page's script imports.
+    await page.goto(path, { waitUntil: 'networkidle' });
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     expect(overflow, `${path} is wider than the screen`).toBeLessThanOrEqual(0);
   }
