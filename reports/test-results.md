@@ -1,8 +1,8 @@
 # End-to-end test results
 
-Generated 2026-10-30T04:56:16.684Z from 1 Playwright report (run on a fresh clone of the repository: `npm ci && npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit are configured but could not run in the build environment (their download server was blocked); they run in GitHub Actions.
+Generated 2026-10-30T05:30:23.345Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit are configured but could not run in the build environment (their download server was blocked); they run in GitHub Actions.
 
-- results-chromium.json: 300 passed, 0 failed, 0 flaky, 0 skipped (205 s)
+- results-chromium.json: 302 passed, 0 failed, 0 flaky, 0 skipped (220 s)
 
 | Test | Chromium 🖥 | Chromium 📱 | Firefox 🖥 | Firefox 📱 | WebKit 🖥 | WebKit 📱 |
 |---|---|---|---|---|---|---|
@@ -39,6 +39,7 @@ Generated 2026-10-30T04:56:16.684Z from 1 Playwright report (run on a fresh clon
 | pdf.spec.ts › PDF tools › add-page-numbers-to-pdf shows a friendly error for protected and damaged PDFs | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › add-page-numbers-to-pdf writes readable numbers | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › add-text-to-pdf adds text, shapes, highlight, whiteout and an image | ✅ | ✅ | not run | not run | not run | not run |
+| pdf.spec.ts › PDF tools › add-text-to-pdf keeps the text frame around bold and Cyrillic text | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › add-text-to-pdf shows a friendly error for protected and damaged PDFs | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › add-text-to-pdf shows a friendly message for Hindi text | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › compress-pdf light keeps text extractable and shrinks a bloated file | ✅ | ✅ | not run | not run | not run | not run |
@@ -159,8 +160,8 @@ Generated 2026-10-30T04:56:16.684Z from 1 Playwright report (run on a fresh clon
 
 | Project | Passed | Failed |
 |---|---|---|
-| chromium-desktop | 150 | 0 |
-| chromium-mobile | 150 | 0 |
+| chromium-desktop | 151 | 0 |
+| chromium-mobile | 151 | 0 |
 | firefox-desktop | not run | not run |
 | firefox-mobile | not run | not run |
 | webkit-desktop | not run | not run |
