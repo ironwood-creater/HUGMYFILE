@@ -5,7 +5,8 @@ import { CATEGORIES, toolsIn } from '../data/tools';
 import { t } from '../i18n/ui';
 
 const s = t();
-const current = Astro.url.pathname.replace(/\/$/, '');
+// Built pages are files (merge-pdf.html), so drop the extension to compare with tool links.
+const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
 ---
 <a href="#main" class="sr-only-focusable fixed left-3 top-3 z-[100] rounded-full bg-primary px-4 py-2 font-bold text-on-primary">
   {s.skipToContent}
@@ -18,9 +19,13 @@ const current = Astro.url.pathname.replace(/\/$/, '');
 
     <nav aria-label="Tool categories" class="hidden md:block">
       <ul class="flex items-center gap-1">
-        {CATEGORIES.map((cat) => {
+        {CATEGORIES.map((cat, i) => {
           const items = toolsIn(cat.id);
           const active = items.some((tool) => current === `/${tool.slug}`);
+          // The last menus open towards the left so they stay on screen on tablets.
+          const side = i >= CATEGORIES.length - 2 ? 'right-0' : 'left-0';
+          // Long lists get two columns on wide screens; every menu scrolls if the screen is short.
+          const wide = items.length > 8;
           return (
             <li class="relative">
               <details class="nav-dd group">
@@ -30,8 +35,8 @@ const current = Astro.url.pathname.replace(/\/$/, '');
                   {cat.navLabel}
                   <Icon name="ChevronDown" size={16} class="transition-transform group-open:rotate-180" />
                 </summary>
-                <div class="absolute left-0 top-full z-50 mt-2 w-72 rounded-2xl border border-line bg-surface p-2 shadow-[var(--shadow-lift)]">
-                  <ul>
+                <div class={`nav-dd-panel absolute ${side} top-full z-50 mt-2 max-h-[calc(100dvh-5.5rem)] w-72 overflow-y-auto overscroll-contain rounded-2xl border border-line bg-surface p-2 shadow-[var(--shadow-lift)] ${wide ? 'lg:w-[36rem]' : ''}`}>
+                  <ul class={wide ? 'lg:grid lg:grid-cols-2' : undefined}>
                     {items.map((tool) => (
                       <li>
                         <a
@@ -83,7 +88,7 @@ const current = Astro.url.pathname.replace(/\/$/, '');
     <ul class="mx-auto max-w-6xl pt-2">
       {CATEGORIES.map((cat) => (
         <li class="border-b border-line last:border-b-0">
-          <details class="group">
+          <details class="group" open={toolsIn(cat.id).some((tool) => current === `/${tool.slug}`)}>
             <summary class="flex list-none items-center justify-between py-3 text-lg font-extrabold text-fg">
               {cat.navLabel}
               <Icon name="ChevronDown" size={20} class="transition-transform group-open:rotate-180" />
@@ -91,7 +96,12 @@ const current = Astro.url.pathname.replace(/\/$/, '');
             <ul class="grid gap-1 pb-3">
               {toolsIn(cat.id).map((tool) => (
                 <li>
-                  <a href={`/${tool.slug}`} class="flex items-center gap-3 rounded-xl px-2 py-2 font-semibold text-fg no-underline hover:bg-surface-2">
+                  <a
+                    href={`/${tool.slug}`}
+                    aria-current={current === `/${tool.slug}` ? 'page' : undefined}
+                    data-astro-prefetch="tap"
+                    class="flex items-center gap-3 rounded-xl px-2 py-2 font-semibold text-fg no-underline hover:bg-surface-2 aria-[current=page]:bg-surface-2"
+                  >
                     <span class="grid size-8 shrink-0 place-items-center rounded-lg bg-accent-soft text-accent"><Icon name={tool.icon} size={18} /></span>
                     {tool.name}
                   </a>
@@ -108,18 +118,46 @@ const current = Astro.url.pathname.replace(/\/$/, '');
 <script>
   const menuBtn = document.getElementById('menu-toggle');
   const mobileNav = document.getElementById('mobile-nav');
-  menuBtn?.addEventListener('click', () => {
-    const open = menuBtn.getAttribute('aria-expanded') === 'true';
-    menuBtn.setAttribute('aria-expanded', String(!open));
-    mobileNav?.classList.toggle('hidden', open);
-    menuBtn.querySelector('.menu-open-icon')?.classList.toggle('hidden', !open);
-    menuBtn.querySelector('.menu-close-icon')?.classList.toggle('hidden', open);
-  });
+  const setMenu = (open: boolean) => {
+    if (!menuBtn) return;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    mobileNav?.classList.toggle('hidden', !open);
+    menuBtn.querySelector('.menu-open-icon')?.classList.toggle('hidden', open);
+    menuBtn.querySelector('.menu-close-icon')?.classList.toggle('hidden', !open);
+    // Keep the page behind the open menu still.
+    document.documentElement.classList.toggle('overflow-hidden', open);
+  };
+  menuBtn?.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
 
   const dropdowns = Array.from(document.querySelectorAll<HTMLDetailsElement>('details.nav-dd'));
   for (const dd of dropdowns) {
     dd.addEventListener('toggle', () => {
       if (dd.open) for (const other of dropdowns) if (other !== dd) other.open = false;
+    });
+    // With a mouse, menus open on hover. A click right after that keeps the menu open instead of closing it.
+    let timer = 0;
+    let openedByHover = false;
+    dd.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        if (!dd.open) {
+          dd.open = true;
+          openedByHover = true;
+        }
+      }, 60);
+    });
+    dd.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        dd.open = false;
+        openedByHover = false;
+      }, 200);
+    });
+    dd.querySelector('summary')?.addEventListener('click', (e) => {
+      if (openedByHover && dd.open) e.preventDefault();
+      openedByHover = false;
     });
   }
   document.addEventListener('click', (e) => {
@@ -132,6 +170,10 @@ const current = Astro.url.pathname.replace(/\/$/, '');
         dd.open = false;
         dd.querySelector('summary')?.focus();
       }
+    }
+    if (menuBtn?.getAttribute('aria-expanded') === 'true') {
+      setMenu(false);
+      menuBtn.focus();
     }
   });
 

@@ -28,7 +28,7 @@ const PUBLIC_ASSETS = [
 ];
 // Code generated or injected by build tools that ends up in the pages.
 const BUILD_INJECTED = [
-  { pkg: 'astro', note: 'Island hydration runtime included in each page' },
+  { pkg: 'astro', note: 'Island hydration and link prefetch runtime included in each page' },
   { pkg: 'tailwindcss', note: 'Generated CSS, including the Preflight base styles' },
   { pkg: 'lucide', note: 'Interface icons (SVG paths drawn into pages and tools)' },
 ];

@@ -72,7 +72,7 @@ const jsonLd = [
         <ul class="flex flex-wrap justify-center gap-2">
           {CATEGORIES.map((c) => (
             <li>
-              <a href={`#${c.id}`} class="chip border border-line bg-surface text-fg no-underline hover:border-coral-300">
+              <a href={`#${c.id}`} data-jump class="chip border border-line bg-surface text-fg no-underline hover:border-coral-300">
                 <Icon name={c.icon} size={16} /> {c.navLabel}
               </a>
             </li>
@@ -143,4 +143,25 @@ const jsonLd = [
   }
   input?.addEventListener('input', apply);
   if (input?.value) apply();
+
+  // Category chips glide to their section (a search that hid the section is cleared first).
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  for (const chip of document.querySelectorAll<HTMLAnchorElement>('a[data-jump]')) {
+    chip.addEventListener('click', (e) => {
+      const target = document.getElementById(chip.hash.slice(1));
+      if (!target) return;
+      e.preventDefault();
+      if (target.hidden && input) {
+        input.value = '';
+        apply();
+      }
+      history.pushState(null, '', chip.hash);
+      target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+      const heading = target.querySelector<HTMLElement>('h2');
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      }
+    });
+  }
 </script>

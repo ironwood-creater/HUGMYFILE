@@ -26,7 +26,7 @@ const fontName = (pkg: string) =>
   </p>
 
   <h2>Libraries</h2>
-  <ul class="!list-none !pl-0 grid gap-3">
+  <ul class="!list-none !pl-0 grid grid-cols-1 gap-3 [overflow-wrap:anywhere]">
     {libraries.map((p) => (
       <li class="card p-4" data-testid="license-entry">
         <p class="!mb-1 font-extrabold">
@@ -56,7 +56,7 @@ const fontName = (pkg: string) =>
   </ul>
 
   <h2>Fonts</h2>
-  <ul class="!list-none !pl-0 grid gap-3">
+  <ul class="!list-none !pl-0 grid grid-cols-1 gap-3 [overflow-wrap:anywhere]">
     {fonts.map((p) => (
       <li class="card p-4" data-testid="license-entry">
         <p class="!mb-1 font-extrabold">
@@ -74,7 +74,7 @@ const fontName = (pkg: string) =>
   </ul>
 
   <h2>Data files</h2>
-  <ul class="!list-none !pl-0 grid gap-3">
+  <ul class="!list-none !pl-0 grid grid-cols-1 gap-3 [overflow-wrap:anywhere]">
     {files.map((d) => (
       <li class="card p-4" data-testid="license-entry">
         <p class="!mb-1 font-extrabold"><a href={d.url} rel="noopener">{d.name}</a> <span class="chip ml-2 bg-accent-soft text-accent">{d.license}</span></p>

@@ -19,6 +19,8 @@ export default defineConfig({
   build: { format: 'file', inlineStylesheets: 'auto' },
   image: { service: passthroughImageService() },
   i18n: { defaultLocale: 'en', locales: ['en'] },
+  // Pages start loading when a link is hovered or focused (same-site pages only), so they open almost instantly.
+  prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   integrations: [
     preact(),
     sitemap({

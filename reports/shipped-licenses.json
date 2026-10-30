@@ -212,7 +212,7 @@
       "license": "MIT",
       "copyright": "Copyright (c) 2021 Fred K. Schott",
       "url": "https://astro.build",
-      "note": "Island hydration runtime included in each page",
+      "note": "Island hydration and link prefetch runtime included in each page",
       "components": []
     },
     {

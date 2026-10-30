@@ -281,11 +281,39 @@
   }
 }
 
+/* Smooth page-to-page change in browsers with cross-document view transitions (others just load the page).
+   The header stays put while the content fades. */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 160ms;
+}
+body > header {
+  view-transition-name: site-header;
+}
+
+/* Menus slide in gently. */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+.nav-dd[open] > .nav-dd-panel,
+#mobile-nav:not(.hidden) {
+  animation: menu-in 150ms ease-out;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  @view-transition {
+    navigation: none;
   }
 }

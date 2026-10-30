@@ -55,6 +55,19 @@ test.describe('SEO and content checks (all pages)', () => {
     }
   });
 
+  test('headings never skip a level (h1 → h2 → h3)', () => {
+    const all = [...pages, { file: '404.html', path: '/404', html: readFileSync(join(DIST, '404.html'), 'utf8') }];
+    for (const p of all) {
+      const main = /<main[\s\S]*<\/main>/.exec(p.html)?.[0] ?? '';
+      let last = 0;
+      for (const m of main.matchAll(/<h([1-6])\b/g)) {
+        const level = Number(m[1]);
+        if (last) expect(level, `${p.path}: h${last} followed by h${level}`).toBeLessThanOrEqual(last + 1);
+        last = level;
+      }
+    }
+  });
+
   test('tool pages end their title with "| HugMyFile" and have unique FAQ and how-to content', () => {
     const faqSets = new Map<string, string>();
     const introSets = new Map<string, string>();
