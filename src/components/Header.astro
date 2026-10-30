@@ -130,42 +130,51 @@ const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
   menuBtn?.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
 
   const dropdowns = Array.from(document.querySelectorAll<HTMLDetailsElement>('details.nav-dd'));
+  // Pending hover open/close per menu. Any click or Escape cancels it, so a late timer never re-opens a menu.
+  const timers = new WeakMap<HTMLDetailsElement, number>();
+  const cancelHover = (dd: HTMLDetailsElement) => clearTimeout(timers.get(dd));
   for (const dd of dropdowns) {
     dd.addEventListener('toggle', () => {
       if (dd.open) for (const other of dropdowns) if (other !== dd) other.open = false;
     });
     // With a mouse, menus open on hover. A click right after that keeps the menu open instead of closing it.
-    let timer = 0;
     let openedByHover = false;
     dd.addEventListener('pointerenter', (e) => {
       if (e.pointerType !== 'mouse') return;
-      clearTimeout(timer);
-      timer = window.setTimeout(() => {
+      cancelHover(dd);
+      timers.set(dd, window.setTimeout(() => {
         if (!dd.open) {
           dd.open = true;
           openedByHover = true;
         }
-      }, 60);
+      }, 60));
     });
     dd.addEventListener('pointerleave', (e) => {
       if (e.pointerType !== 'mouse') return;
-      clearTimeout(timer);
-      timer = window.setTimeout(() => {
+      cancelHover(dd);
+      timers.set(dd, window.setTimeout(() => {
         dd.open = false;
         openedByHover = false;
-      }, 200);
+      }, 200));
     });
     dd.querySelector('summary')?.addEventListener('click', (e) => {
+      cancelHover(dd);
       if (openedByHover && dd.open) e.preventDefault();
       openedByHover = false;
     });
   }
   document.addEventListener('click', (e) => {
-    for (const dd of dropdowns) if (dd.open && !dd.contains(e.target as Node)) dd.open = false;
+    for (const dd of dropdowns) {
+      if (dd.open && !dd.contains(e.target as Node)) {
+        cancelHover(dd);
+        dd.open = false;
+      }
+    }
   });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     for (const dd of dropdowns) {
+      cancelHover(dd);
       if (dd.open) {
         dd.open = false;
         dd.querySelector('summary')?.focus();

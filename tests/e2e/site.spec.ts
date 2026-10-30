@@ -66,6 +66,16 @@ test.describe('site shell', () => {
     await expect(link).toBeVisible();
     await page.mouse.move(5, (page.viewportSize()?.height ?? 700) - 5);
     await expect(link).toBeHidden();
+
+    // A quick click then Escape must stay closed: the pending hover timer must not re-open the menu.
+    for (let i = 0; i < 5; i++) {
+      await dd.locator('summary').click();
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+      await expect(link, `round ${i + 1}`).toBeHidden();
+      await page.mouse.move(5, (page.viewportSize()?.height ?? 700) - 5);
+      await page.waitForTimeout(250);
+    }
   });
 
   test('the phone menu opens the current section, keeps the page still and closes with Escape', async ({ page }) => {
