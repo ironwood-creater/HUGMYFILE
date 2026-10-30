@@ -350,6 +350,10 @@ export default function PdfEditor({ mode }: { mode: Mode }) {
                 };
                 let inner = null;
                 if (it.kind === 'text') {
+                  // Small on-screen font sizes round glyph widths, so the drawn text can be a few pixels
+                  // wider than the measured box. Let the frame grow to fit it.
+                  style.minWidth = `${it.w * scale}px`;
+                  style.width = 'max-content';
                   inner = (
                     <span class="block whitespace-pre" style={{ fontFamily: '"Noto Sans", sans-serif', fontSize: `${it.size * scale}px`, lineHeight: LINE_HEIGHT, color: it.color, fontWeight: it.bold ? 700 : 400 }}>
                       {it.text}
