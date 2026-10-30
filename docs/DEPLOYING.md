@@ -47,18 +47,23 @@ git push -u origin main
 
 (If your branch has a different name, use that instead of `main`.) Every push runs the full test suite on Chromium, Firefox and WebKit in GitHub Actions (the **Actions** tab), and the results table appears in the run summary.
 
-## 3. Deploy on Cloudflare Pages
+## 3. Deploy on Cloudflare (Workers, the default)
+
+The Cloudflare dashboard now creates a **Worker** when you connect a repository. That works perfectly for this site: `wrangler.jsonc` in the project tells Cloudflare to serve the built `dist` folder as static files (no Worker code runs, and static file requests are free and unlimited).
 
 1. Create a free account at <https://dash.cloudflare.com>.
-2. Go to **Workers & Pages → Create → Pages → Connect to Git** and pick your `hugmyfile` repository.
-3. Use these settings:
-   - **Framework preset:** Astro (or None)
+2. Go to **Workers & Pages → Create → Import a repository** and pick your `hugmyfile` repository.
+3. Use these settings (later: your Worker → **Settings → Builds**):
+   - **Project name:** `hugmyfile` (must match `"name"` in `wrangler.jsonc`)
    - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Environment variable:** `NODE_VERSION` = `24.22.2` (Cloudflare also reads `.nvmrc`, this just makes it explicit)
-4. Name the project `hugmyfile` so the address is `https://hugmyfile.pages.dev`, then **Save and Deploy**.
+   - **Deploy command:** `npx wrangler deploy` (the default)
+   - **Production branch:** `main`
+   - Node.js comes from `.nvmrc` automatically.
+4. **Deploy.** The site appears at `https://hugmyfile.<your-account>.workers.dev` (shown on the Worker's page). Put that address in `SITE_URL` in `src/config.ts` until you have your own domain.
 
-Every push to your main branch now deploys automatically. The `_headers` file (security and cache headers) is applied by Cloudflare.
+Every push to `main` now deploys automatically. The `_headers` file (security and cache headers) is applied by Cloudflare.
+
+**Prefer Cloudflare Pages?** Choose **Pages → Connect to Git** instead, with build command `npm run build` and output directory `dist`; the address is then `https://hugmyfile.pages.dev`. Pages ignores `wrangler.jsonc`. You can also drag and drop a built `dist` folder with **Pages → Upload assets**, no Git needed.
 
 ## 4. Later: move to hugmyfile.com
 
@@ -70,15 +75,19 @@ export const SITE_URL = 'https://hugmyfile.com';
 ```
 
    Canonical links, the sitemap, `robots.txt`, Open Graph tags, structured data and `ads.txt` all read this value. Commit and push; Cloudflare redeploys.
-3. In your Pages project: **Custom domains → Set up a custom domain**, add `hugmyfile.com` (and `www.hugmyfile.com` if you want it).
-4. Redirect the old address so Google sees only one site. `*.pages.dev` addresses can't use a zone's Redirect Rules, so use **Bulk Redirects**:
-   - Cloudflare dashboard → **Rules → Bulk Redirects** (account level) → **Create Bulk Redirect List** → add a URL redirect:
-     - Source URL: `hugmyfile.pages.dev`
-     - Target URL: `https://hugmyfile.com`
-     - Status: **301**
-     - Turn on **Preserve query string**, **Subpath matching** and **Preserve path suffix**. Leave **Include subdomains** off so preview builds (like `abc123.hugmyfile.pages.dev`) keep working.
-   - Then **Create Bulk Redirect Rule** using that list and enable it.
-   - If you added `www`, add a Redirect Rule in the `hugmyfile.com` zone from `www.hugmyfile.com/*` to `https://hugmyfile.com/${1}` (301).
+3. Attach the domain:
+   - **Worker:** your Worker → **Settings → Domains & Routes → Add → Custom domain**, add `hugmyfile.com` (and `www.hugmyfile.com` if you want it).
+   - **Pages project:** **Custom domains → Set up a custom domain**, add the same.
+4. Make sure Google sees only one address:
+   - **Worker:** once `hugmyfile.com` works, go to **Settings → Domains & Routes** and disable the `workers.dev` address.
+   - **Pages project:** `*.pages.dev` addresses can't use a zone's Redirect Rules, so use **Bulk Redirects**:
+     - Cloudflare dashboard → **Rules → Bulk Redirects** (account level) → **Create Bulk Redirect List** → add a URL redirect:
+       - Source URL: `hugmyfile.pages.dev`
+       - Target URL: `https://hugmyfile.com`
+       - Status: **301**
+       - Turn on **Preserve query string**, **Subpath matching** and **Preserve path suffix**. Leave **Include subdomains** off so preview builds (like `abc123.hugmyfile.pages.dev`) keep working.
+     - Then **Create Bulk Redirect Rule** using that list and enable it.
+   - Either way, if you added `www`, add a Redirect Rule in the `hugmyfile.com` zone from `www.hugmyfile.com/*` to `https://hugmyfile.com/${1}` (301).
 5. In Google Search Console, add `https://hugmyfile.com` and submit `https://hugmyfile.com/sitemap-index.xml`.
 
 ## 5. Turn on Cloudflare Web Analytics (cookieless)
@@ -88,7 +97,7 @@ export const SITE_URL = 'https://hugmyfile.com';
 3. In `src/config.ts`: `export const ANALYTICS_TOKEN = 'paste-token-here';`
 4. Commit and push. The privacy policy automatically says analytics is on.
 
-(Don't also turn on the automatic Web Analytics injection for the Pages project, or the beacon would load twice.)
+(Don't also turn on Cloudflare's automatic Web Analytics injection for the site, or the beacon would load twice.)
 
 ## 6. Turn on AdSense (after approval)
 

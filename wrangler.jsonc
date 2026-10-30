@@ -1,0 +1,13 @@
+// Cloudflare Workers settings: the site is plain static files, so there is no Worker code.
+// Workers Builds runs the build command from the dashboard (npm run build), then `npx wrangler deploy`.
+{
+  "name": "hugmyfile",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // /merge-pdf is served from merge-pdf.html, with no trailing slash (matches the site's links).
+    "html_handling": "auto-trailing-slash",
+    // Unknown addresses get the site's own 404 page with a real 404 status.
+    "not_found_handling": "404-page"
+  }
+}
