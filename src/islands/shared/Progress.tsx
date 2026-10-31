@@ -31,9 +31,10 @@ export default function Progress({ value, label, onCancel }: Props) {
         aria-valuemax={100}
         aria-valuenow={pct ?? undefined}
       >
+        {/* Moved with transform only, so the bar animates on the GPU without re-layout. */}
         <div
-          class={`h-full rounded-full bg-gradient-to-r from-coral-400 to-coral-600 transition-[width] duration-300 ${pct === null ? 'w-1/3 animate-pulse' : ''}`}
-          style={pct === null ? undefined : { width: `${Math.max(3, pct)}%` }}
+          class={`h-full rounded-full bg-gradient-to-r from-coral-400 to-coral-600 ${pct === null ? 'progress-indeterminate w-1/3' : 'transition-transform duration-300 ease-out'}`}
+          style={pct === null ? undefined : { transform: `translateX(-${100 - Math.max(3, pct)}%)` }}
         />
       </div>
     </div>

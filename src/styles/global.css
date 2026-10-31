@@ -294,6 +294,37 @@ body > header {
   view-transition-name: site-header;
 }
 
+/* "Working…" bar with no known amount: a segment glides across (transform only, runs on the GPU). */
+@keyframes progress-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+.progress-indeterminate {
+  animation: progress-slide 1.2s ease-in-out infinite;
+}
+
+/* Tool cards lift on hover. The shadow fades in on its own layer instead of being repainted each frame. */
+.tool-card {
+  position: relative;
+}
+.tool-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--shadow-lift);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.tool-card:hover::after {
+  opacity: 1;
+}
+
 /* Menus slide in gently. */
 @keyframes menu-in {
   from {

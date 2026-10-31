@@ -178,7 +178,7 @@ export default function BatchImageTool(props: Props) {
               </p>
               {item.status === 'working' && (
                 <div class="mt-2 h-2 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-800">
-                  <div class="h-full rounded-full bg-coral-500 transition-[width]" style={{ width: `${Math.max(4, item.progress * 100)}%` }} />
+                  <div class="h-full rounded-full bg-coral-500 transition-transform duration-300 ease-out" style={{ transform: `translateX(-${100 - Math.max(4, item.progress * 100)}%)` }} />
                 </div>
               )}
               {item.error && <p class="mt-1 text-sm font-semibold text-coral-700 dark:text-coral-300" role="alert" data-testid="item-error">{item.error}</p>}

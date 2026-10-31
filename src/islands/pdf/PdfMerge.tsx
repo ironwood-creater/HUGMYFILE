@@ -111,7 +111,7 @@ export default function PdfMerge() {
         {entries.map((e, i) => (
           <li
             key={e.id}
-            class={`flex items-center gap-3 rounded-2xl border bg-bg p-3 ${dragId === e.id ? 'border-coral-400 opacity-60' : 'border-line'}`}
+            class={`flex items-center gap-2 rounded-2xl border bg-bg p-3 sm:gap-3 ${dragId === e.id ? 'border-coral-400 opacity-60' : 'border-line'}`}
             draggable
             onDragStart={() => setDragId(e.id)}
             onDragOver={(ev) => ev.preventDefault()}
@@ -122,8 +122,9 @@ export default function PdfMerge() {
             onDragEnd={() => setDragId(null)}
             data-testid="merge-item"
           >
-            <span class="cursor-grab text-muted" aria-hidden="true"><Icon icon={GripVertical as IconNode} size={18} /></span>
-            <span class="w-6 text-center font-extrabold text-muted">{i + 1}</span>
+            {/* Small phones: no drag handle (touch can't drag) and no number, so the arrows fit. */}
+            <span class="hidden cursor-grab text-muted sm:inline" aria-hidden="true"><Icon icon={GripVertical as IconNode} size={18} /></span>
+            <span class="hidden w-6 text-center font-extrabold text-muted sm:block">{i + 1}</span>
             {e.pdf ? <Thumb doc={e.pdf.doc} page={0} width={44} /> : <span class="grid h-14 w-11 place-items-center rounded-md border border-line text-xs text-muted">PDF</span>}
             <div class="min-w-0 flex-1">
               <p class="truncate font-bold" title={e.file.name}>{e.file.name}</p>

@@ -231,7 +231,7 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
 
   return (
     <div class="card grid gap-6 p-4 md:grid-cols-[1fr_320px] md:p-6">
-      <div class="space-y-6">
+      <div class="min-w-0 space-y-6">
         <fieldset>
           <legend class="field-label">What should the code open?</legend>
           <div class="flex flex-wrap gap-2" role="radiogroup" aria-label="QR code type">
@@ -404,9 +404,10 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
         </details>
       </div>
 
-      <aside class="space-y-4 md:sticky md:top-20 md:self-start" aria-label="QR code result">
+      <aside class="min-w-0 space-y-4 md:sticky md:top-20 md:self-start" aria-label="QR code result">
         <div class="grid aspect-square place-items-center overflow-hidden rounded-2xl border border-line bg-white p-2" data-testid="qr-preview">
-          <div ref={preview} class={data && !tooLong ? '' : 'hidden'} />
+          {/* The code is drawn at 280px but scales down to fit narrow phones. */}
+          <div ref={preview} class={data && !tooLong ? 'w-full max-w-[280px] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full' : 'hidden'} />
           {!data && <p class="px-6 text-center text-sm text-ink-600">Fill in the details and your QR code appears here.</p>}
           {tooLong && <p class="px-6 text-center text-sm font-bold text-coral-700">That is too much information for one QR code. Please shorten it.</p>}
         </div>

@@ -37,7 +37,7 @@ export default function DropZone({
     if (!multiple) files = files.slice(0, 1);
     const bad: string[] = [];
     const good = files.filter((f) => {
-      const problem = validate?.(f) ?? null;
+      const problem = f.size === 0 ? 'This file is empty (0 bytes). Please choose another file.' : (validate?.(f) ?? null);
       if (problem) bad.push(`${f.name}: ${problem}`);
       return !problem;
     });
