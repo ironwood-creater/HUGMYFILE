@@ -1,8 +1,8 @@
 # End-to-end test results
 
-Generated 2026-10-31T05:50:09.985Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
+Generated 2026-10-31T06:12:51.461Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
 
-- results-chromium.json: 331 passed, 0 failed, 0 flaky, 5 skipped (194 s)
+- results-chromium.json: 331 passed, 0 failed, 0 flaky, 5 skipped (192 s)
 
 | Test | Chromium 🖥 | Chromium 📱 | Firefox 🖥 | Firefox 📱 | WebKit 🖥 | WebKit 📱 |
 |---|---|---|---|---|---|---|
@@ -161,7 +161,6 @@ Generated 2026-10-31T05:50:09.985Z from 1 Playwright report (`npm run build && n
 | site.spec.ts › site shell › footer carries the trademark notice | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › header menus stay on screen and every tool can be reached on tablets and short laptops | ✅ | n/a | not run | not run | not run | not run |
 | site.spec.ts › site shell › homepage shows every tool and search filters them | ✅ | ✅ | not run | not run | not run | not run |
-| site.spec.ts › site shell › hover effects pause while the page scrolls and come back when it stops | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › hovering or focusing a link starts loading that page early | ✅ | n/a | not run | not run | not run | not run |
 | site.spec.ts › site shell › navigation menu opens on desktop and phone | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › pages load only the preloaded Latin fonts and nothing shifts while they load | ✅ | ✅ | not run | not run | not run | not run |
@@ -169,6 +168,7 @@ Generated 2026-10-31T05:50:09.985Z from 1 Playwright report (`npm run build && n
 | site.spec.ts › site shell › robots.txt and sitemap point at SITE_URL | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › terms include the signature and ownership rules | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › the header marks the section of the current tool | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › the hover look pauses while the page scrolls, and cards stay clickable | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › the phone menu opens the current section, keeps the page still and closes with Escape | n/a | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › theme toggle switches to dark mode | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › unknown pages show the friendly 404 | ✅ | ✅ | not run | not run | not run | not run |
