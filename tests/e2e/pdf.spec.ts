@@ -54,6 +54,19 @@ test.describe('PDF tools', () => {
     expect(text[2]).toContain('HugMyFile test page 1');
   });
 
+  test('merge-pdf fits a 320px phone with files listed', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await openTool(page, 'merge-pdf');
+    await upload(page, ['doc3.pdf', 'docB.pdf']);
+    await expect(page.getByTestId('merge-item')).toHaveCount(2);
+    await expect(page.getByTestId('move-down').first()).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    for (const b of await page.getByTestId('merge-item').first().getByRole('button').all()) {
+      const box = (await b.boundingBox())!;
+      expect(box.x + box.width).toBeLessThanOrEqual(320);
+    }
+  });
+
   test('split-pdf splits by ranges into a ZIP', async ({ page }) => {
     await openTool(page, 'split-pdf');
     await upload(page, 'doc3.pdf');

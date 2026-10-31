@@ -30,6 +30,15 @@ test.describe('OCR tools', () => {
     expect(txt.buf.toString('utf8').match(/--- ocr\.png ---/g)).toHaveLength(2);
   });
 
+  test('image-to-text reports an image it cannot open instead of an empty result', async ({ page }) => {
+    await openTool(page, 'image-to-text');
+    await page.getByTestId('file-input').setInputFiles({ name: 'broken.jpg', mimeType: 'image/jpeg', buffer: Buffer.from('this is not a picture') });
+    await page.getByTestId('run').click();
+    await expect(page.getByTestId('error')).toContainText('broken.jpg: We couldn’t open this image');
+    await expect(page.getByTestId('done')).toHaveCount(0);
+    await expect(page.getByTestId('ocr-result')).toHaveCount(0);
+  });
+
   test('pdf-to-text runs OCR on a scanned PDF', async ({ page }) => {
     test.setTimeout(300_000);
     await openTool(page, 'pdf-to-text');

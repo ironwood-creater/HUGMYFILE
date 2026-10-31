@@ -186,6 +186,22 @@ const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
     }
   });
 
+  // While the page scrolls, cards under the pointer would keep lifting and settling, which costs frames.
+  // Hover effects pause during scrolling and come back 150 ms after it stops.
+  let scrollEnd = 0;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (scrollEnd) clearTimeout(scrollEnd);
+      else document.documentElement.classList.add('is-scrolling');
+      scrollEnd = window.setTimeout(() => {
+        document.documentElement.classList.remove('is-scrolling');
+        scrollEnd = 0;
+      }, 150);
+    },
+    { passive: true },
+  );
+
   document.getElementById('theme-toggle')?.addEventListener('click', () => {
     const dark = !document.documentElement.classList.contains('dark');
     document.documentElement.classList.toggle('dark', dark);

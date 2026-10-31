@@ -109,13 +109,12 @@ export default function PassportPhoto() {
   useEffect(() => {
     const canvas = preview.current;
     if (!canvas || !src || !sizeOk) return;
-    const cssW = Math.min(320, canvas.parentElement?.clientWidth ?? 320);
+    // CSS makes the canvas fill its box (at most 320px, less on small phones); this only sets the drawing resolution.
+    const cssW = Math.min(320, canvas.closest('.grid')?.clientWidth || 320);
     const cssH = (cssW * size.h) / size.w;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = Math.round(cssW * dpr);
     canvas.height = Math.round(cssH * dpr);
-    canvas.style.width = `${cssW}px`;
-    canvas.style.height = `${cssH}px`;
     const ctx = canvas.getContext('2d');
     if (ctx) drawCrop(ctx, src, canvas.width, canvas.height, adj);
   }, [src, adj, size.w, size.h, sizeOk]);
@@ -263,7 +262,7 @@ export default function PassportPhoto() {
   return (
     <div class="card space-y-6 p-4 md:p-6">
       <div class="grid gap-6 md:grid-cols-[auto_1fr]">
-        <div class="mx-auto w-full max-w-[320px]">
+        <div class="mx-auto w-full min-w-0 max-w-[320px]">
           <div
             class="relative touch-none select-none overflow-hidden rounded-xl border-2 border-line"
             tabIndex={0}
@@ -292,7 +291,7 @@ export default function PassportPhoto() {
           >
             <canvas
               ref={preview}
-              class="block cursor-move"
+              class="block h-auto w-full cursor-move"
               style={{ filter: `brightness(${1 + adj.brightness / 100}) contrast(${1 + adj.contrast / 100})` }}
               data-testid="passport-preview"
             />
@@ -306,7 +305,7 @@ export default function PassportPhoto() {
           <p class="mt-2 text-center text-sm text-muted">Drag the photo so the top of the head and the chin sit on the dashed lines.</p>
         </div>
 
-        <div class="space-y-5">
+        <div class="min-w-0 space-y-5">
           <div>
             <label for="passport-preset" class="field-label">Photo size</label>
             <select id="passport-preset" class="field" value={presetId} onChange={(e) => choosePreset(e.currentTarget.value)} data-testid="passport-preset">

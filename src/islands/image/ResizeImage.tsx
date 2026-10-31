@@ -1,10 +1,12 @@
 import { useState } from 'preact/hooks';
 import BatchImageTool from './BatchImageTool';
 import { Segmented, Slider } from '../shared/Controls';
+import Notice from '../shared/Notice';
 import { ACCEPT_IMAGES, EXT } from '../../lib/image/formats';
 import { baseName } from '../../lib/format';
 import type { ImageJob } from '../../lib/image/client';
 import { readUprightSize } from '../../lib/image/orient';
+import { ToolError, friendlyError } from '../../lib/errors';
 
 type Mode = 'pixels' | 'percent' | 'preset';
 
@@ -30,11 +32,17 @@ export default function ResizeImage() {
   const [preset, setPreset] = useState(PRESETS[0]!.id);
   const [fit, setFit] = useState<'cover' | 'contain'>('cover');
   const [source, setSource] = useState<{ w: number; h: number } | null>(null);
+  const [unreadable, setUnreadable] = useState(false);
 
   const onFiles = async (files: File[]) => {
-    const first = files[0];
-    const size = first ? await readUprightSize(first) : null;
+    // Use the first image we can open for the starting size; say so right away if none open.
+    let size: { w: number; h: number } | null = null;
+    for (const f of files) {
+      size = await readUprightSize(f);
+      if (size) break;
+    }
     setSource(size);
+    setUnreadable(files.length > 0 && !size);
     if (size && !width && !height) {
       setWidth(String(size.w));
       setHeight(String(size.h));
@@ -68,6 +76,7 @@ export default function ResizeImage() {
   };
 
   const canRun = () => {
+    if (unreadable) return friendlyError(new ToolError('decode-failed')).text;
     if (mode !== 'pixels') return null;
     const w = Number(width);
     const h = Number(height);
@@ -89,6 +98,11 @@ export default function ResizeImage() {
       buildJob={buildJob}
       outputName={(file, r) => `${baseName(file.name)}-${r.width}x${r.height}.${EXT[r.format]}`}
     >
+      {unreadable && (
+        <Notice kind="error" testId="unreadable">
+          {friendlyError(new ToolError('decode-failed')).text}
+        </Notice>
+      )}
       <Segmented<Mode>
         label="Resize by"
         name="resize-mode"

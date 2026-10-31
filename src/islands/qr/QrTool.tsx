@@ -137,17 +137,21 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
       case 'wifi':
         return wifi.ssid ? wifiPayload(wifi) : '';
       case 'whatsapp':
-        return wa.phone.replace(/\D/g, '') ? whatsappPayload(wa) : '';
+        return wa.phone.replace(/\D/g, '').length >= 3 ? whatsappPayload(wa) : '';
       case 'email':
         return email.to.trim() ? emailPayload(email) : '';
       case 'phone':
-        return phone.replace(/\D/g, '') ? phonePayload(phone) : '';
+        return phone.replace(/\D/g, '').length >= 3 ? phonePayload(phone) : '';
       case 'sms':
-        return sms.phone.replace(/\D/g, '') ? smsPayload(sms) : '';
+        return sms.phone.replace(/\D/g, '').length >= 3 ? smsPayload(sms) : '';
       case 'vcard':
         return Object.values(vcard).some((v) => v.trim()) ? vcardPayload(vcard) : '';
     }
   }, [type, url, text, wifi, wa, email, phone, sms, vcard]);
+
+  // A phone field with text but (almost) no digits can't make a working code, so say why instead of staying blank.
+  const phoneInput = type === 'whatsapp' ? wa.phone : type === 'phone' ? phone : type === 'sms' ? sms.phone : '';
+  const phoneProblem = phoneInput.trim() && phoneInput.replace(/\D/g, '').length < 3 ? 'Please enter the phone number using digits, for example +1 555 123 4567.' : null;
 
   const level = ecl === 'auto' ? (logo ? 'H' : 'M') : ecl;
   const bytes = useMemo(() => new TextEncoder().encode(data).length, [data]);
@@ -291,6 +295,11 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
               <Field id="sms-message" label="Message (optional)" value={sms.message} onInput={(v) => setSms({ ...sms, message: v })} multiline />
             </>
           )}
+          {phoneProblem && (
+            <p class="text-sm font-semibold text-coral-700 dark:text-coral-300" role="alert" data-testid="phone-problem">
+              {phoneProblem}
+            </p>
+          )}
           {type === 'vcard' && (
             <div class="grid gap-4 sm:grid-cols-2">
               <Field id="vc-first" label="First name" value={vcard.firstName} onInput={(v) => setVcard({ ...vcard, firstName: v })} />
@@ -408,7 +417,7 @@ export default function QrTool({ type: initialType, logo: logoFocus = false }: {
         <div class="grid aspect-square place-items-center overflow-hidden rounded-2xl border border-line bg-white p-2" data-testid="qr-preview">
           {/* The code is drawn at 280px but scales down to fit narrow phones. */}
           <div ref={preview} class={data && !tooLong ? 'w-full max-w-[280px] [&_svg]:block [&_svg]:h-auto [&_svg]:w-full' : 'hidden'} />
-          {!data && <p class="px-6 text-center text-sm text-ink-600">Fill in the details and your QR code appears here.</p>}
+          {!data && <p class="px-6 text-center text-sm text-ink-600">{phoneProblem ?? 'Fill in the details and your QR code appears here.'}</p>}
           {tooLong && <p class="px-6 text-center text-sm font-bold text-coral-700">That is too much information for one QR code. Please shorten it.</p>}
         </div>
         <p class="chip mx-auto w-fit bg-accent-soft text-accent">Static code · Never expires · No tracking</p>

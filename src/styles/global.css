@@ -324,6 +324,9 @@ body > header {
 .tool-card:hover::after {
   opacity: 1;
 }
+.is-scrolling .tool-card {
+  pointer-events: none;
+}
 
 /* Menus slide in gently. */
 @keyframes menu-in {

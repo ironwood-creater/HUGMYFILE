@@ -227,6 +227,29 @@ test.describe('image tools', () => {
     await expect(page.getByTestId('item-error')).toContainText('Camera → Formats → Most Compatible');
   });
 
+  test('an empty file is turned away with a clear message', async ({ page }) => {
+    await openTool(page, 'compress-image');
+    await page.getByTestId('file-input').setInputFiles({ name: 'empty.jpg', mimeType: 'image/jpeg', buffer: Buffer.alloc(0) });
+    await expect(page.getByTestId('rejected-files')).toContainText('empty.jpg: This file is empty');
+    await expect(page.getByTestId('run')).toHaveCount(0);
+  });
+
+  test('resize-image says right away when an image cannot be opened', async ({ page }) => {
+    await openTool(page, 'resize-image');
+    await page.getByTestId('file-input').setInputFiles({ name: 'broken.jpg', mimeType: 'image/jpeg', buffer: Buffer.from('this is not a picture') });
+    await expect(page.getByTestId('unreadable')).toContainText('couldn’t open this image');
+  });
+
+  test('passport-photo-maker fits a 320px phone', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await openTool(page, 'passport-photo-maker');
+    await upload(page, 'photo.jpg');
+    await expect(page.getByTestId('passport-preview')).toBeVisible();
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    const box = (await page.getByTestId('passport-preview').boundingBox())!;
+    expect(box.x + box.width).toBeLessThanOrEqual(320);
+  });
+
   test('passport-photo-maker creates an exact 2×2 inch photo under the KB limit', async ({ page }) => {
     await openTool(page, 'passport-photo-maker');
     await upload(page, 'photo.jpg');

@@ -126,6 +126,16 @@ test.describe('site shell', () => {
       .toBe(true);
   });
 
+  test('hover effects pause while the page scrolls and come back when it stops', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => window.scrollBy(0, 400));
+    await expect(page.locator('html')).toHaveClass(/is-scrolling/);
+    await expect(page.locator('html')).not.toHaveClass(/is-scrolling/);
+    // Cards can be clicked again right after.
+    await page.locator('.tool-item a[href="/merge-pdf"]').click();
+    await expect(page).toHaveURL(/\/merge-pdf$/);
+  });
+
   test('theme toggle switches to dark mode', async ({ page }) => {
     await page.goto('/');
     const before = await page.evaluate(() => document.documentElement.classList.contains('dark'));

@@ -85,6 +85,7 @@ export default function OcrTool({ mode }: { mode: 'image' | 'pdf' }) {
     setResults([]);
     cancelled.current = false;
     const out: Result[] = [];
+    const failed: string[] = [];
     try {
       if (mode === 'image') {
         for (let i = 0; i < files.length; i++) {
@@ -96,8 +97,9 @@ export default function OcrTool({ mode }: { mode: 'image' | 'pdf' }) {
           try {
             canvas = await loadUprightCanvas(f, 4000);
           } catch (err) {
-            out.push({ title: f.name, text: '', source: 'ocr' });
-            setError(`${f.name}: ${friendlyError(err).text}`);
+            // An image we can't open is reported, not shown as an empty "result".
+            failed.push(`${f.name}: ${friendlyError(err).text}`);
+            setError(failed.join(' '));
             continue;
           }
           const s = await ocr(i / files.length, 1 / files.length, label);

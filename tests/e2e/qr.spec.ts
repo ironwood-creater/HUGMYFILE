@@ -98,6 +98,30 @@ test.describe('QR code tools', () => {
     expect(svg.buf.toString('utf8')).toContain('<image');
   });
 
+  test('phone-based codes explain a number without digits', async ({ page }) => {
+    await openTool(page, 'whatsapp-qr-code');
+    const phone = page.getByLabel('Phone number with country code');
+    await phone.fill('call me');
+    await expect(page.getByTestId('phone-problem')).toContainText('using digits');
+    await expect(page.getByTestId('qr-preview')).toContainText('using digits');
+    await expect(page.getByTestId('qr-preview').locator('svg')).toHaveCount(0);
+    await phone.fill('+1 555 123 4567');
+    await expect(page.getByTestId('phone-problem')).toHaveCount(0);
+    await expect(page.getByTestId('qr-preview').locator('svg')).toBeVisible();
+  });
+
+  test('the QR tools fit a 320px phone', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    await openTool(page, 'qr-code-generator');
+    await page.getByTestId('qr-url').fill('https://example.com/a/rather/long/link/that/should/wrap/nicely');
+    await expect(page.getByTestId('qr-preview').locator('svg')).toBeVisible();
+    await page.getByText('What’s inside the code').click();
+    await expect(page.getByTestId('qr-payload')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+    const box = (await page.getByTestId('qr-preview').boundingBox())!;
+    expect(box.x + box.width).toBeLessThanOrEqual(320);
+  });
+
   test('low-contrast colors show a warning', async ({ page }) => {
     await openTool(page, 'qr-code-generator');
     await page.getByTestId('qr-url').fill('https://example.com');
