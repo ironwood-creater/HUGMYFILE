@@ -321,11 +321,22 @@ body > header {
   transition: opacity 0.15s ease;
   pointer-events: none;
 }
-.tool-card:hover::after {
-  opacity: 1;
-}
-.is-scrolling .tool-card {
-  pointer-events: none;
+/* Hover only with a real mouse (no "stuck" lift after a tap), and not while the page scrolls: cards sliding
+   under a resting pointer would otherwise keep lifting and settling. Cards stay clickable throughout. */
+@media (hover: hover) {
+  html:not(.is-scrolling) .tool-card:hover {
+    transform: translateY(-0.125rem);
+    border-color: var(--color-coral-300);
+  }
+  html.dark:not(.is-scrolling) .tool-card:hover {
+    border-color: var(--color-coral-700);
+  }
+  html:not(.is-scrolling) .tool-card:hover::after {
+    opacity: 1;
+  }
+  html:not(.is-scrolling) .tool-card:hover .tool-card-icon {
+    transform: scale(1.05);
+  }
 }
 
 /* Menus slide in gently. */

@@ -126,12 +126,21 @@ test.describe('site shell', () => {
       .toBe(true);
   });
 
-  test('hover effects pause while the page scrolls and come back when it stops', async ({ page }) => {
+  test('the hover look pauses while the page scrolls, and cards stay clickable', async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => window.scrollBy(0, 400));
     await expect(page.locator('html')).toHaveClass(/is-scrolling/);
     await expect(page.locator('html')).not.toHaveClass(/is-scrolling/);
-    // Cards can be clicked again right after.
+    // Even mid-scroll a card still takes clicks (only its hover look is paused).
+    const pointer = await page.evaluate(() => {
+      document.documentElement.classList.add('is-scrolling');
+      const value = getComputedStyle(document.querySelector('.tool-card')!).pointerEvents;
+      document.documentElement.classList.remove('is-scrolling');
+      return value;
+    });
+    expect(pointer).toBe('auto');
+    // A card clicked straight after scrolling opens its tool.
+    await page.evaluate(() => window.scrollBy(0, 200));
     await page.locator('.tool-item a[href="/merge-pdf"]').click();
     await expect(page).toHaveURL(/\/merge-pdf$/);
   });

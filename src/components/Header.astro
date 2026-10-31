@@ -187,7 +187,7 @@ const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
   });
 
   // While the page scrolls, cards under the pointer would keep lifting and settling, which costs frames.
-  // Hover effects pause during scrolling and come back 150 ms after it stops.
+  // The hover look pauses during scrolling and comes back 150 ms after it stops (cards stay clickable).
   let scrollEnd = 0;
   window.addEventListener(
     'scroll',

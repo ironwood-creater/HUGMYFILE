@@ -10,10 +10,10 @@ const H = headingLevel;
 ---
 <a
   href={`/${tool.slug}`}
-  class="tool-card group card flex h-full gap-4 p-4 text-fg no-underline transition-[transform,border-color] hover:-translate-y-0.5 hover:border-coral-300 dark:hover:border-coral-700"
+  class="tool-card card flex h-full gap-4 p-4 text-fg no-underline transition-[transform,border-color]"
   data-search={`${tool.name} ${tool.summary} ${tool.keywords.join(' ')} ${tool.category}`.toLowerCase()}
 >
-  <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-surface-2 text-link transition-transform group-hover:scale-105">
+  <span class="tool-card-icon grid size-11 shrink-0 place-items-center rounded-xl bg-surface-2 text-link transition-transform">
     <Icon name={tool.icon} size={22} />
   </span>
   <span class="min-w-0">
