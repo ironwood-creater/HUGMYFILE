@@ -1,11 +1,12 @@
 # End-to-end test results
 
-Generated 2026-10-30T16:11:52.355Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
+Generated 2026-10-31T05:50:09.985Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
 
-- results-chromium.json: 313 passed, 0 failed, 0 flaky, 5 skipped (244 s)
+- results-chromium.json: 331 passed, 0 failed, 0 flaky, 5 skipped (194 s)
 
 | Test | Chromium 🖥 | Chromium 📱 | Firefox 🖥 | Firefox 📱 | WebKit 🖥 | WebKit 📱 |
 |---|---|---|---|---|---|---|
+| image.spec.ts › image tools › an empty file is turned away with a clear message | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › bulk-image-compressor returns a ZIP with every file | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › compress-image handles a 10-megapixel JPG without crashing | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › compress-image makes a JPG smaller and keeps it valid | ✅ | ✅ | not run | not run | not run | not run |
@@ -21,16 +22,19 @@ Generated 2026-10-30T16:11:52.355Z from 1 Playwright report (`npm run build && n
 | image.spec.ts › image tools › jpg-to-png converts and keeps the size | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › jpg-to-webp converts photos | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › passport-photo-maker creates an exact 2×2 inch photo under the KB limit | ✅ | ✅ | not run | not run | not run | not run |
+| image.spec.ts › image tools › passport-photo-maker fits a 320px phone | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › passport-photo-maker makes 35×45 mm photos and a printable PDF sheet | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › png-to-jpg turns transparent areas white | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › png-to-webp keeps transparency | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › resize-image keeps the aspect ratio when locked | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › resize-image produces the exact requested dimensions | ✅ | ✅ | not run | not run | not run | not run |
+| image.spec.ts › image tools › resize-image says right away when an image cannot be opened | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › resize-image scales by percentage | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › webp-to-jpg converts WebP files | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › webp-to-png converts and keeps transparency | ✅ | ✅ | not run | not run | not run | not run |
 | ocr.spec.ts › OCR tools › image-to-text handles several images at once | ✅ | ✅ | not run | not run | not run | not run |
 | ocr.spec.ts › OCR tools › image-to-text reads the words in an image | ✅ | ✅ | not run | not run | not run | not run |
+| ocr.spec.ts › OCR tools › image-to-text reports an image it cannot open instead of an empty result | ✅ | ✅ | not run | not run | not run | not run |
 | ocr.spec.ts › OCR tools › language data is only downloaded for the chosen language | ✅ | ✅ | not run | not run | not run | not run |
 | ocr.spec.ts › OCR tools › pdf-to-text reads the text layer of a typed PDF directly | ✅ | ✅ | not run | not run | not run | not run |
 | ocr.spec.ts › OCR tools › pdf-to-text runs OCR on a scanned PDF | ✅ | ✅ | not run | not run | not run | not run |
@@ -55,6 +59,7 @@ Generated 2026-10-30T16:11:52.355Z from 1 Playwright report (`npm run build && n
 | pdf.spec.ts › PDF tools › fill-pdf-form shows a friendly error for protected and damaged PDFs | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › jpg-to-pdf turns images into pages (upright) | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › merge-pdf combines files in the chosen order | ✅ | ✅ | not run | not run | not run | not run |
+| pdf.spec.ts › PDF tools › merge-pdf fits a 320px phone with files listed | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › merge-pdf flags protected and damaged files and blocks merging | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › pdf-to-jpg converts every page into a ZIP of JPGs | ✅ | ✅ | not run | not run | not run | not run |
 | pdf.spec.ts › PDF tools › pdf-to-jpg shows a friendly error for protected and damaged PDFs | ✅ | ✅ | not run | not run | not run | not run |
@@ -120,10 +125,12 @@ Generated 2026-10-30T16:11:52.355Z from 1 Playwright report (`npm run build && n
 | privacy.spec.ts › privacy: every page loads only from this site › /wifi-qr-code makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › email-qr-code builds a mailto link | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › low-contrast colors show a warning | ✅ | ✅ | not run | not run | not run | not run |
+| qr.spec.ts › QR code tools › phone-based codes explain a number without digits | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › phone-qr-code makes call and SMS codes | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › qr-code-generator encodes a link exactly (PNG + SVG) | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › qr-code-generator encodes accented text as UTF-8 | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › qr-code-with-logo still decodes with a logo in the middle | ✅ | ✅ | not run | not run | not run | not run |
+| qr.spec.ts › QR code tools › the QR tools fit a 320px phone | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › vcard-qr-code encodes a contact card | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › whatsapp-qr-code builds a wa.me link with the message | ✅ | ✅ | not run | not run | not run | not run |
 | qr.spec.ts › QR code tools › wifi-qr-code escapes special characters correctly | ✅ | ✅ | not run | not run | not run | not run |
@@ -154,8 +161,10 @@ Generated 2026-10-30T16:11:52.355Z from 1 Playwright report (`npm run build && n
 | site.spec.ts › site shell › footer carries the trademark notice | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › header menus stay on screen and every tool can be reached on tablets and short laptops | ✅ | n/a | not run | not run | not run | not run |
 | site.spec.ts › site shell › homepage shows every tool and search filters them | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › hover effects pause while the page scrolls and come back when it stops | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › hovering or focusing a link starts loading that page early | ✅ | n/a | not run | not run | not run | not run |
 | site.spec.ts › site shell › navigation menu opens on desktop and phone | ✅ | ✅ | not run | not run | not run | not run |
+| site.spec.ts › site shell › pages load only the preloaded Latin fonts and nothing shifts while they load | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › privacy policy states that files are never uploaded | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › robots.txt and sitemap point at SITE_URL | ✅ | ✅ | not run | not run | not run | not run |
 | site.spec.ts › site shell › terms include the signature and ownership rules | ✅ | ✅ | not run | not run | not run | not run |
@@ -170,8 +179,8 @@ Generated 2026-10-30T16:11:52.355Z from 1 Playwright report (`npm run build && n
 
 | Project | Passed | Failed | Flaky | Not applicable |
 |---|---|---|---|---|
-| chromium-desktop | 157 | 0 | 0 | 2 |
-| chromium-mobile | 156 | 0 | 0 | 3 |
+| chromium-desktop | 166 | 0 | 0 | 2 |
+| chromium-mobile | 165 | 0 | 0 | 3 |
 | firefox-desktop | not run | not run | not run | not run |
 | firefox-mobile | not run | not run | not run | not run |
 | webkit-desktop | not run | not run | not run | not run |
