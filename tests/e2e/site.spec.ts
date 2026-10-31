@@ -136,6 +136,26 @@ test.describe('site shell', () => {
     await expect(page).toHaveURL(/\/merge-pdf$/);
   });
 
+  test('pages load only the preloaded Latin fonts and nothing shifts while they load', async ({ page, browserName }) => {
+    const fonts: string[] = [];
+    page.on('request', (r) => {
+      if (/\.woff2?$/.test(r.url())) fonts.push(new URL(r.url()).pathname);
+    });
+    // Layout-shift entries exist in Chromium only.
+    if (browserName === 'chromium') {
+      await page.addInitScript(() => {
+        (window as unknown as { cls: number }).cls = 0;
+        new PerformanceObserver((list) => {
+          for (const e of list.getEntries() as unknown as { value: number; hadRecentInput: boolean }[]) if (!e.hadRecentInput) (window as unknown as { cls: number }).cls += e.value;
+        }).observe({ type: 'layout-shift', buffered: true });
+      });
+    }
+    await page.goto('/qr-code-generator', { waitUntil: 'networkidle' });
+    expect(fonts.length).toBeGreaterThan(0);
+    for (const f of fonts) expect(f, 'only the Latin Nunito files the page preloads').toMatch(/nunito-latin-(400|700|800)-normal/);
+    if (browserName === 'chromium') expect(await page.evaluate(() => (window as unknown as { cls: number }).cls)).toBeLessThan(0.001);
+  });
+
   test('theme toggle switches to dark mode', async ({ page }) => {
     await page.goto('/');
     const before = await page.evaluate(() => document.documentElement.classList.contains('dark'));

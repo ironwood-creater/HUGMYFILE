@@ -7,6 +7,7 @@ import { SITE_NAME, ANALYTICS_TOKEN } from '../config';
 import { absoluteUrl, organizationJsonLd } from '../lib/site';
 import nunito800 from '@fontsource/nunito/files/nunito-latin-800-normal.woff2?url';
 import nunito400 from '@fontsource/nunito/files/nunito-latin-400-normal.woff2?url';
+import nunito700 from '@fontsource/nunito/files/nunito-latin-700-normal.woff2?url';
 
 interface Props {
   title: string;
@@ -42,6 +43,7 @@ const structured = [organizationJsonLd(), ...jsonLd];
 
     <link rel="preload" href={nunito800} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={nunito400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={nunito700} as="font" type="font/woff2" crossorigin />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE_NAME} />

@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
-@import "@fontsource/nunito/latin-400.css";
-@import "@fontsource/nunito/latin-700.css";
-@import "@fontsource/nunito/latin-800.css";
-@import "@fontsource/nunito/latin-ext-400.css";
-@import "@fontsource/nunito/latin-ext-700.css";
-@import "@fontsource/nunito/latin-ext-800.css";
+/* The per-weight files declare every subset with its unicode-range, so a page only downloads the subsets
+   its text uses (the per-subset files have no range, which made the extended-Latin file override the
+   preloaded Latin one and swap in late). */
+@import "@fontsource/nunito/400.css";
+@import "@fontsource/nunito/700.css";
+@import "@fontsource/nunito/800.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
