@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/Faq.astro';
+import Icon from '../../components/Icon.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { GUIDES, formatGuideDate, readingMinutes, type Guide } from '../../data/guides';
+import { getTool } from '../../data/tools';
+import { absoluteUrl } from '../../lib/site';
+
+export function getStaticPaths() {
+  return GUIDES.map((guide) => ({ params: { guide: guide.slug }, props: { guide } }));
+}
+
+interface Props {
+  guide: Guide;
+}
+const { guide } = Astro.props;
+const path = `/guides/${guide.slug}`;
+const others = GUIDES.filter((g) => g.slug !== guide.slug).slice(0, 3);
+const strip = (html: string) => html.replace(/<[^>]+>/g, '');
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: guide.title,
+    description: guide.description,
+    datePublished: guide.published,
+    dateModified: guide.updated,
+    image: absoluteUrl('/og-image.png'),
+    mainEntityOfPage: absoluteUrl(path),
+    author: { '@type': 'Organization', name: 'HugMyFile', url: absoluteUrl('/') },
+    publisher: { '@type': 'Organization', name: 'HugMyFile', url: absoluteUrl('/') },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl('/') },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: absoluteUrl('/guides') },
+      { '@type': 'ListItem', position: 3, name: guide.title, item: absoluteUrl(path) },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: guide.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: strip(f.a) } })),
+  },
+];
+---
+<BaseLayout title={guide.metaTitle} description={guide.description} path={path} jsonLd={jsonLd} ogType="article">
+  <div class="mx-auto max-w-3xl px-4 pt-6">
+    <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Guides', href: '/guides' }, { name: guide.title }]} />
+    <h1 class="mt-4 text-3xl font-extrabold leading-tight tracking-tight md:text-4xl">{guide.title}</h1>
+    <p class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+      <span>Updated <time datetime={guide.updated}>{formatGuideDate(guide.updated)}</time></span>
+      <span aria-hidden="true">·</span>
+      <span class="inline-flex items-center gap-1"><Icon name="Clock" size={14} /> {readingMinutes(guide)} min read</span>
+    </p>
+
+    <div class="card mt-6 border-sea-200 bg-accent-soft p-5 dark:border-sea-800" data-testid="quick-answer">
+      <p class="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-accent"><Icon name="Zap" size={16} /> Quick answer</p>
+      <p class="prose-hug mt-2 !mb-0 leading-relaxed" set:html={guide.quickAnswer} />
+    </div>
+
+    <article class="prose-hug mt-8" data-testid="guide-content">
+      {guide.sections.map((section, i) => (
+        <>
+          <h2>{section.heading}</h2>
+          {section.blocks.map((block) =>
+            'p' in block ? (
+              <p set:html={block.p} />
+            ) : 'steps' in block ? (
+              <ol>{block.steps.map((step) => <li set:html={step} />)}</ol>
+            ) : 'list' in block ? (
+              <ul>{block.list.map((item) => <li set:html={item} />)}</ul>
+            ) : (
+              <p class="not-prose card flex gap-3 p-4 text-[0.95rem] leading-relaxed" data-testid="guide-tip">
+                <span class="mt-0.5 shrink-0 text-accent"><Icon name="Lightbulb" size={18} /></span>
+                <span set:html={block.tip} />
+              </p>
+            ),
+          )}
+          {i === 1 && <AdSlot position="in-content" />}
+        </>
+      ))}
+    </article>
+
+    <section aria-labelledby="guide-tools-heading" class="mt-12" data-testid="guide-tools">
+      <h2 id="guide-tools-heading" class="mb-4 text-2xl font-extrabold">Tools in this guide</h2>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {guide.tools.map((slug) => <li><ToolCard tool={getTool(slug)} /></li>)}
+      </ul>
+    </section>
+
+    <Faq items={guide.faqs} />
+
+    <section aria-labelledby="more-guides-heading" class="mt-14">
+      <h2 id="more-guides-heading" class="mb-4 text-2xl font-extrabold">More guides</h2>
+      <ul class="grid gap-3">
+        {others.map((g) => <li><GuideCard guide={g} /></li>)}
+      </ul>
+      <p class="mt-4"><a href="/guides" class="font-bold">See all guides</a></p>
+    </section>
+  </div>
+
+  <AdSlot position="bottom" />
+</BaseLayout>

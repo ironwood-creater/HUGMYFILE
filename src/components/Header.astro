@@ -57,6 +57,16 @@ const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
             </li>
           );
         })}
+        {/* Tablets have no room for a sixth item; the phone menu and footer link to the guides too. */}
+        <li class="hidden lg:block">
+          <a
+            href="/guides"
+            aria-current={current.startsWith('/guides') ? 'page' : undefined}
+            class="block rounded-full px-3 py-2 text-[0.95rem] font-bold text-fg no-underline hover:bg-surface-2 aria-[current=page]:bg-surface-2 aria-[current=page]:text-link"
+          >
+            Guides
+          </a>
+        </li>
       </ul>
     </nav>
 
@@ -111,6 +121,17 @@ const current = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
           </details>
         </li>
       ))}
+      <li>
+        <a
+          href="/guides"
+          data-astro-prefetch="tap"
+          aria-current={current.startsWith('/guides') ? 'page' : undefined}
+          class="flex items-center justify-between py-3 text-lg font-extrabold text-fg no-underline aria-[current=page]:text-link"
+        >
+          Guides
+          <Icon name="ChevronRight" size={20} />
+        </a>
+      </li>
     </ul>
   </nav>
 </header>

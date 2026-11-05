@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import { GUIDES } from '../../data/guides';
+import { absoluteUrl } from '../../lib/site';
+
+const title = 'Guides: Everyday File How-Tos | HugMyFile';
+const description = 'Short, practical how-tos for everyday file jobs: shrinking PDFs on iPhone, passport photos at home, signing without printing and more.';
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl('/') },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: absoluteUrl('/guides') },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: GUIDES.map((g, i) => ({ '@type': 'ListItem', position: i + 1, name: g.title, url: absoluteUrl(`/guides/${g.slug}`) })),
+  },
+];
+---
+<BaseLayout title={title} description={description} path="/guides" jsonLd={jsonLd}>
+  <div class="mx-auto max-w-5xl px-4 pt-6">
+    <Breadcrumbs items={[{ name: 'Home', href: '/' }, { name: 'Guides' }]} />
+    <h1 class="mt-4 text-3xl font-extrabold leading-tight tracking-tight md:text-4xl">Guides</h1>
+    <p class="mt-3 max-w-2xl text-lg text-muted">
+      Short, practical how-tos for everyday file jobs. Each one gets straight to the answer and uses free tools that run on your own device.
+    </p>
+    <ul class="mt-8 grid gap-3 md:grid-cols-2" data-testid="guide-list">
+      {GUIDES.map((guide) => <li><GuideCard guide={guide} headingLevel="h2" /></li>)}
+    </ul>
+  </div>
+</BaseLayout>

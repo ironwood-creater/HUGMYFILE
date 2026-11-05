@@ -1,13 +1,20 @@
 import { test, expect } from '../support/test';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
+import { GUIDES } from '../../src/data/guides';
 
 // Reads the built pages straight from dist/, so these checks cover every page.
 const DIST = join(process.cwd(), 'dist');
 const SITE = 'https://hugmyfile.pages.dev';
-const pages = readdirSync(DIST)
-  .filter((f) => f.endsWith('.html') && f !== '404.html')
-  .map((f) => ({ file: f, path: f === 'index.html' ? '/' : `/${f.replace(/\.html$/, '')}`, html: readFileSync(join(DIST, f), 'utf8') }));
+const pages = [
+  ...readdirSync(DIST)
+    .filter((f) => f.endsWith('.html') && f !== '404.html')
+    .map((f) => ({ file: f, path: f === 'index.html' ? '/' : `/${f.replace(/\.html$/, '')}`, html: readFileSync(join(DIST, f), 'utf8') })),
+  // Guides live in their own folder.
+  ...readdirSync(join(DIST, 'guides'))
+    .filter((f) => f.endsWith('.html'))
+    .map((f) => ({ file: `guides/${f}`, path: `/guides/${f.replace(/\.html$/, '')}`, html: readFileSync(join(DIST, 'guides', f), 'utf8') })),
+];
 
 const get = (html: string, re: RegExp) => re.exec(html)?.[1]?.trim() ?? '';
 const decode = (s: string) => s.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
@@ -29,7 +36,8 @@ test.describe('SEO and content checks (all pages)', () => {
   test('every required page exists', () => {
     const built = new Set(pages.map((p) => p.path));
     for (const slug of TOOL_SLUGS) expect(built, slug).toContain(`/${slug}`);
-    for (const p of ['/', '/about', '/contact', '/privacy-policy', '/terms', '/licenses']) expect(built).toContain(p);
+    for (const p of ['/', '/about', '/contact', '/privacy-policy', '/terms', '/licenses', '/guides']) expect(built).toContain(p);
+    for (const g of GUIDES) expect(built, g.slug).toContain(`/guides/${g.slug}`);
     expect(readdirSync(DIST)).toContain('404.html');
   });
 

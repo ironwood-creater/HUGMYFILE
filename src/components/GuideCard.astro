@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import { readingMinutes, type Guide } from '../data/guides';
+interface Props {
+  guide: Guide;
+  headingLevel?: 'h3' | 'h2';
+}
+const { guide, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<a href={`/guides/${guide.slug}`} class="guide-card card flex h-full gap-4 p-4 text-fg no-underline transition-[transform,border-color]" data-testid="guide-card">
+  <span class="tool-card-icon grid size-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent transition-transform">
+    <Icon name={guide.icon} size={22} />
+  </span>
+  <span class="min-w-0">
+    <H class="font-extrabold leading-snug">{guide.title}</H>
+    <span class="mt-1 block text-sm leading-snug text-muted">{guide.summary}</span>
+    <span class="mt-2 flex items-center gap-1 text-xs font-bold text-muted"><Icon name="Clock" size={14} /> {readingMinutes(guide)} min read</span>
+  </span>
+</a>

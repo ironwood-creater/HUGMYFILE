@@ -7,6 +7,8 @@ import RelatedTools from '../components/RelatedTools.astro';
 import AdSlot from '../components/AdSlot.astro';
 import Icon from '../components/Icon.astro';
 import ToolIsland from '../components/ToolIsland.astro';
+import GuideCard from '../components/GuideCard.astro';
+import { guidesForTool } from '../data/guides';
 import { TOOLS, CATEGORIES, type ToolDef } from '../data/tools';
 import { CONTENT } from '../data/content';
 import type { ToolContent } from '../data/content/types';
@@ -29,6 +31,7 @@ const s = t();
 const category = CATEGORIES.find((c) => c.id === tool.category)!;
 const path = `/${tool.slug}`;
 const island = tool.island;
+const guides = guidesForTool(tool.slug);
 
 const jsonLd = [
   {
@@ -115,6 +118,15 @@ const jsonLd = [
     </article>
 
     <Faq items={content.faqs} />
+
+    {guides.length > 0 && (
+      <section aria-labelledby="tool-guides-heading" class="mt-12" data-testid="tool-guides">
+        <h2 id="tool-guides-heading" class="mb-4 text-2xl font-extrabold">Helpful guides</h2>
+        <ul class="grid gap-3">
+          {guides.map((guide) => <li><GuideCard guide={guide} /></li>)}
+        </ul>
+      </section>
+    )}
   </div>
 
   <div class="mx-auto max-w-5xl px-4">

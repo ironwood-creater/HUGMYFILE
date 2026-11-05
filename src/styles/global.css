@@ -307,11 +307,11 @@ body > header {
   animation: progress-slide 1.2s ease-in-out infinite;
 }
 
-/* Tool cards lift on hover. The shadow fades in on its own layer instead of being repainted each frame. */
-.tool-card {
+/* Tool and guide cards lift on hover. The shadow fades in on its own layer instead of being repainted each frame. */
+:is(.tool-card, .guide-card) {
   position: relative;
 }
-.tool-card::after {
+:is(.tool-card, .guide-card)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -324,17 +324,17 @@ body > header {
 /* Hover only with a real mouse (no "stuck" lift after a tap), and not while the page scrolls: cards sliding
    under a resting pointer would otherwise keep lifting and settling. Cards stay clickable throughout. */
 @media (hover: hover) {
-  html:not(.is-scrolling) .tool-card:hover {
+  html:not(.is-scrolling) :is(.tool-card, .guide-card):hover {
     transform: translateY(-0.125rem);
     border-color: var(--color-coral-300);
   }
-  html.dark:not(.is-scrolling) .tool-card:hover {
+  html.dark:not(.is-scrolling) :is(.tool-card, .guide-card):hover {
     border-color: var(--color-coral-700);
   }
-  html:not(.is-scrolling) .tool-card:hover::after {
+  html:not(.is-scrolling) :is(.tool-card, .guide-card):hover::after {
     opacity: 1;
   }
-  html:not(.is-scrolling) .tool-card:hover .tool-card-icon {
+  html:not(.is-scrolling) :is(.tool-card, .guide-card):hover .tool-card-icon {
     transform: scale(1.05);
   }
 }
