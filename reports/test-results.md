@@ -1,11 +1,16 @@
 # End-to-end test results
 
-Generated 2026-10-31T06:12:51.461Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
+Generated 2026-11-06T04:53:28.481Z from 1 Playwright report (`npm run build && npx playwright test --project=chromium-desktop --project=chromium-mobile`). Firefox and WebKit could not run in the build environment; they run in GitHub Actions on every push.
 
-- results-chromium.json: 331 passed, 0 failed, 0 flaky, 5 skipped (192 s)
+- results-chromium.json: 343 passed, 0 failed, 0 flaky, 5 skipped (214 s)
 
 | Test | Chromium 🖥 | Chromium 📱 | Firefox 🖥 | Firefox 📱 | WebKit 🖥 | WebKit 📱 |
 |---|---|---|---|---|---|---|
+| guides.spec.ts › guides › every link inside the guides leads to a working page | ✅ | ✅ | not run | not run | not run | not run |
+| guides.spec.ts › guides › guides can be reached from the homepage, the menu and the footer | ✅ | ✅ | not run | not run | not run | not run |
+| guides.spec.ts › guides › guides carry Article, breadcrumb and FAQ structured data | ✅ | ✅ | not run | not run | not run | not run |
+| guides.spec.ts › guides › the guides page lists every guide, and each guide opens with its answer, steps, tools and FAQ | ✅ | ✅ | not run | not run | not run | not run |
+| guides.spec.ts › guides › tool pages link to the guides that use them | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › an empty file is turned away with a clear message | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › bulk-image-compressor returns a ZIP with every file | ✅ | ✅ | not run | not run | not run | not run |
 | image.spec.ts › image tools › compress-image handles a 10-megapixel JPG without crashing | ✅ | ✅ | not run | not run | not run | not run |
@@ -93,6 +98,7 @@ Generated 2026-10-31T06:12:51.461Z from 1 Playwright report (`npm run build && n
 | privacy.spec.ts › privacy: every page loads only from this site › /delete-pdf-pages makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
 | privacy.spec.ts › privacy: every page loads only from this site › /email-qr-code makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
 | privacy.spec.ts › privacy: every page loads only from this site › /fill-pdf-form makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
+| privacy.spec.ts › privacy: every page loads only from this site › /guides makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
 | privacy.spec.ts › privacy: every page loads only from this site › /heic-to-jpg makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
 | privacy.spec.ts › privacy: every page loads only from this site › /image-to-text makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
 | privacy.spec.ts › privacy: every page loads only from this site › /jpg-to-avif makes no third-party requests and stores nothing | ✅ | ✅ | not run | not run | not run | not run |
@@ -179,8 +185,8 @@ Generated 2026-10-31T06:12:51.461Z from 1 Playwright report (`npm run build && n
 
 | Project | Passed | Failed | Flaky | Not applicable |
 |---|---|---|---|---|
-| chromium-desktop | 166 | 0 | 0 | 2 |
-| chromium-mobile | 165 | 0 | 0 | 3 |
+| chromium-desktop | 172 | 0 | 0 | 2 |
+| chromium-mobile | 171 | 0 | 0 | 3 |
 | firefox-desktop | not run | not run | not run | not run |
 | firefox-mobile | not run | not run | not run | not run |
 | webkit-desktop | not run | not run | not run | not run |
